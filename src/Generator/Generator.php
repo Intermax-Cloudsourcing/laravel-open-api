@@ -1,7 +1,8 @@
 <?php
 
-namespace App\OpenApi;
+namespace Intermax\LaravelOpenApi\Generator;
 
+use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\Writer;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Str;
+use Throwable;
 
 class Generator
 {
@@ -25,6 +27,11 @@ class Generator
         $this->componentsCreator = $componentsCreator;
     }
 
+    /**
+     * @return string
+     * @throws Throwable
+     * @throws TypeErrorException
+     */
     public function generate()
     {
         $openApi = new OpenApi([
@@ -86,6 +93,12 @@ class Generator
         return in_array($method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
     }
 
+    /**
+     * @param string $method
+     * @param string $uri
+     * @return string
+     * @throws Exception
+     */
     protected function determineAction(string $method, string $uri): string
     {
         switch (strtolower($method)) {
@@ -107,6 +120,12 @@ class Generator
         throw new Exception('Operation method not recognized.');
     }
 
+    /**
+     * @param string $method
+     * @param string $uri
+     * @return string
+     * @throws Exception
+     */
     protected function determineEntityName(string $method, string $uri): string
     {
         $chunks = explode('/', $uri);

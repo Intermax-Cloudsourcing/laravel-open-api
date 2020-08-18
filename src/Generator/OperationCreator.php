@@ -1,15 +1,15 @@
 <?php
 
-namespace App\OpenApi;
+namespace Intermax\LaravelOpenApi\Generator;
 
-use App\Http\Requests\FilterRequest;
+use Intermax\LaravelOpenApi\Contracts\Filter;
+use Intermax\LaravelOpenApi\Contracts\FilterRequest;
+use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\Parameter;
 use cebe\openapi\spec\RequestBody;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
-use Illuminate\Support\Str;
-use PhpParser\Node\Param;
 
 class OperationCreator
 {
@@ -20,6 +20,12 @@ class OperationCreator
         return $this->$createMethod(ucfirst($entityName), $uri);
     }
 
+    /**
+     * @param string $entity
+     * @param string $uri
+     * @return Operation
+     * @throws TypeErrorException
+     */
     public function createIndexOperation(string $entity, string $uri)
     {
         $filterRequestClass = "\\App\\Http\\Requests\\{$entity}CollectionRequest";
@@ -29,6 +35,7 @@ class OperationCreator
             $filterRequest = new $filterRequestClass();
 
 
+            /** @var Filter $filter */
             foreach ($filterRequest->filters() as $filter) {
                 foreach ($filter->parameters() as $parameter => $type) {
                     $filterParameters[] = new Parameter([
@@ -115,6 +122,12 @@ class OperationCreator
         ]);
     }
 
+    /**
+     * @param string $entity
+     * @param string $uri
+     * @return Operation
+     * @throws TypeErrorException
+     */
     public function createShowOperation(string $entity, string $uri)
     {
         return new Operation([
@@ -153,6 +166,12 @@ class OperationCreator
         ]);
     }
 
+    /**
+     * @param string $entity
+     * @param string $uri
+     * @return Operation
+     * @throws TypeErrorException
+     */
     public function createStoreOperation(string $entity, string $uri)
     {
         return new Operation([
@@ -185,6 +204,12 @@ class OperationCreator
         ]);
     }
 
+    /**
+     * @param string $entity
+     * @param string $uri
+     * @return Operation
+     * @throws TypeErrorException
+     */
     public function createUpdateOperation(string $entity, string $uri)
     {
         return new Operation([
@@ -229,6 +254,12 @@ class OperationCreator
         ]);
     }
 
+    /**
+     * @param string $entity
+     * @param string $uri
+     * @return Operation
+     * @throws TypeErrorException
+     */
     public function createDestroyOperation(string $entity, string $uri)
     {
         return new Operation([

@@ -1,15 +1,19 @@
 <?php
 
-namespace App\OpenApi;
+namespace Intermax\LaravelOpenApi\Generator;
 
 use Carbon\Carbon;
+use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Components;
 use Faker\Generator as Faker;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use Throwable;
 
 class ComponentsCreator
 {
@@ -28,7 +32,7 @@ class ComponentsCreator
     /**
      * @param string $entityName
      * @return $this
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function addEntity(string $entityName)
     {
@@ -84,13 +88,19 @@ class ComponentsCreator
 
     /**
      * @return Components
-     * @throws \cebe\openapi\exceptions\TypeErrorException
+     * @throws TypeErrorException
      */
     public function get()
     {
         return new Components(['schemas' => $this->schemas]);
     }
 
+    /**
+     * @param $dates
+     * @param $item
+     * @param mixed $value
+     * @return array
+     */
     protected function determineProperty($dates, $item, $value): array
     {
         $property = [
@@ -126,13 +136,13 @@ class ComponentsCreator
 
     /**
      * @param $entity
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function loadAllRelations($entity)
     {
-        $reflectionClass = new \ReflectionClass($entity);
+        $reflectionClass = new ReflectionClass($entity);
 
-        foreach($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->hasReturnType() && Str::contains($method->getReturnType()->getName(), [
                 'HasMany',
                 'BelongsTo',
