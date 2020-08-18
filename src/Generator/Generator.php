@@ -7,6 +7,7 @@ use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\Writer;
 use Exception;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Str;
@@ -20,11 +21,19 @@ class Generator
 
     protected ComponentsCreator $componentsCreator;
 
-    public function __construct(Router $router, OperationCreator $operationCreator, ComponentsCreator $componentsCreator)
+    protected Repository $config;
+
+    public function __construct(
+        Router $router,
+        OperationCreator $operationCreator,
+        ComponentsCreator $componentsCreator,
+        Repository $config
+    )
     {
         $this->router = $router;
         $this->operationCreator = $operationCreator;
         $this->componentsCreator = $componentsCreator;
+        $this->config = $config;
     }
 
     /**
@@ -37,14 +46,13 @@ class Generator
         $openApi = new OpenApi([
             'openapi' => '3.0.2',
             'info' => [
-                'title' => 'Time API',
-                'version' => '0.0.1'
+                'title' => $this->config->get('open-api.name', 'API'),
+                'version' => $this->config->get('open-api.version', '1.0.0')
             ],
             'paths' => []
         ]);
 
         $routes = $this->router->getRoutes()->getRoutes();
-
 
         foreach ($routes as $route) {
             if (!$this->isApiRoute($route)) {
