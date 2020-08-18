@@ -1,0 +1,5 @@
+---
+include:
+  - project: 'development/gitlab-includes/composer'
+    ref: master
+    file: 'trigger-repository.yml'
