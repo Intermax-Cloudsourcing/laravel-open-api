@@ -12,6 +12,7 @@
         "php": "^7.4.0",
         "laravel/framework": "^7.0",
         "cebe/php-openapi": "^1.4",
+        "fzaninotto/faker": "^1.9.1",
         "ext-json": "*"
     },
     "require-dev": {
