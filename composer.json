@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": "^7.4.0",
-        "laravel/framework": "^7.0",
+        "laravel/framework": "^7.0 || ^8.0",
         "cebe/php-openapi": "^1.4",
         "fzaninotto/faker": "^1.9.1",
         "ext-json": "*"
@@ -18,7 +18,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "nunomaduro/larastan": "^0.5",
-        "orchestra/testbench": "^5.0",
+        "orchestra/testbench": "^5.0 || ^6.0",
         "phpstan/phpstan": "^0.12.3",
         "phpunit/phpunit": "^8.5.1 || ^9.0"
     },
