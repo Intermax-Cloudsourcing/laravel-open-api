@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^7.4.0",
+        "php": ">=7.4",
         "laravel/framework": "^7.0 || ^8.0",
         "cebe/php-openapi": "^1.4",
         "fzaninotto/faker": "^1.9.1",
