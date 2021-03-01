@@ -1,0 +1,12 @@
+---
+version: '3.7'
+
+services:
+  php-cli:
+    image: eu.gcr.io/intermax-group-262516/tools/composer:latest
+    shm_size: 1024m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    volumes: [{type: bind, source: ./, target: /var/www/html}]
