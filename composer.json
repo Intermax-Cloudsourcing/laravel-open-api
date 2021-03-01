@@ -12,7 +12,7 @@
         "php": ">=7.4",
         "laravel/framework": "^7.0 || ^8.0",
         "cebe/php-openapi": "^1.4",
-        "fzaninotto/faker": "^1.9.1",
+        "fakerphp/faker": "^1.0",
         "ext-json": "*"
     },
     "autoload-dev": {
