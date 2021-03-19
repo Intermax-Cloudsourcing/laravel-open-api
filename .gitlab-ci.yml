@@ -1,5 +1,17 @@
 ---
 include:
-  - project: 'development/gitlab-includes/composer'
+  - project: development/gitlab-includes/composer
     ref: master
-    file: 'trigger-repository.yml'
+    file: trigger-repository.yml
+  - project: development/gitlab-includes/services
+    ref: 1.3.0
+    file: defaults.yml
+  - project: development/gitlab-includes/services
+    ref: 1.3.0
+    file: php-lint.yml
+  - project: development/gitlab-includes/services
+    ref: 1.3.0
+    file: php-unit.yml
+  - project: development/gitlab-includes/services
+    ref: 1.3.0
+    file: trigger-general-docs.yml

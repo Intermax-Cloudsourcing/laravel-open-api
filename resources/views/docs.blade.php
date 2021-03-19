@@ -6,7 +6,7 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.45.1/swagger-ui-bundle.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.27.0/swagger-ui.min.css" rel="stylesheet">
 </head>
 <body>

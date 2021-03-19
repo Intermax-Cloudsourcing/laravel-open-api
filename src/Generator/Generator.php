@@ -6,7 +6,6 @@ use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\Writer;
-use Exception;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
@@ -23,16 +22,24 @@ class Generator
 
     protected Repository $config;
 
+    protected RouteAnalyser $routeAnalyser;
+
+    protected RequestBodyCreator $requestBodyCreator;
+
     public function __construct(
         Router $router,
         OperationCreator $operationCreator,
         ComponentsCreator $componentsCreator,
-        Repository $config
+        Repository $config,
+        RouteAnalyser $routeAnalyser,
+        RequestBodyCreator $requestBodyCreator
     ) {
         $this->router = $router;
         $this->operationCreator = $operationCreator;
         $this->componentsCreator = $componentsCreator;
         $this->config = $config;
+        $this->routeAnalyser = $routeAnalyser;
+        $this->requestBodyCreator = $requestBodyCreator;
     }
 
     /**
@@ -53,8 +60,12 @@ class Generator
 
         $routes = $this->router->getRoutes()->getRoutes();
 
+        /** @var Route $route */
         foreach ($routes as $route) {
-            if (! $this->isApiRoute($route)) {
+            if (
+                ! $this->routeAnalyser->isApiRoute($route)
+                || $this->routeAnalyser->isClosureRoute($route)
+            ) {
                 continue;
             }
 
@@ -63,19 +74,28 @@ class Generator
             }
 
             foreach ($route->methods as $method) {
-                if (! $this->isApiMethod($method)) {
+                if (! $this->routeAnalyser->isApiHttpMethod($method)) {
                     continue;
                 }
 
                 $operationName = strtolower($method);
 
-                $action = $this->determineAction($method, $route->uri);
+                $requestClassName = $this->routeAnalyser->determineRequestClass($route);
 
-                $entityName = $this->determineEntityName($method, $route->uri);
+                if ($requestClassName) {
+                    $requestBody = $this->requestBodyCreator->create(new $requestClassName());
+                }
 
-                $this->componentsCreator->addEntity(ucfirst($entityName));
+                $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
 
-                $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create($action, $route->uri, $entityName);
+                $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create(
+                   $method,
+                   $this->deriveEntityNameFromUri($route->uri()),
+                   last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
+                   $requestBody ?? null
+                );
+
+                unset($requestBody);
             }
         }
 
@@ -84,67 +104,8 @@ class Generator
         return Writer::writeToJson($openApi);
     }
 
-    protected function isApiRoute(Route $route): bool
+    protected function deriveEntityNameFromUri(string $uri)
     {
-        foreach ($route->gatherMiddleware() as $middleware) {
-            if ($middleware == 'api') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected function isApiMethod(string $method): bool
-    {
-        return in_array($method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
-    }
-
-    /**
-     * @param string $method
-     * @param string $uri
-     * @return string
-     * @throws Exception
-     */
-    protected function determineAction(string $method, string $uri): string
-    {
-        switch (strtolower($method)) {
-            case 'get':
-                if (Str::endsWith($uri, '}')) {
-                    return 'show';
-                }
-
-                return 'index';
-            case 'post':
-                return 'store';
-            case 'put':
-            case 'patch':
-                return 'update';
-            case 'delete':
-                return 'destroy';
-        }
-
-        throw new Exception('Operation method not recognized.');
-    }
-
-    /**
-     * @param string $method
-     * @param string $uri
-     * @return string
-     * @throws Exception
-     */
-    protected function determineEntityName(string $method, string $uri): string
-    {
-        $chunks = explode('/', $uri);
-
-        $lastChunk = array_pop($chunks);
-
-        if (in_array($this->determineAction($method, $uri), ['index', 'store'])) {
-            $entity = $lastChunk;
-        } else {
-            $entity = array_pop($chunks);
-        }
-
-        return Str::singular(Str::studly($entity));
+        return Str::studly(Str::singular(explode('/', $uri)[0]));
     }
 }

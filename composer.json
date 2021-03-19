@@ -9,15 +9,19 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "laravel/framework": "^7.0 || ^8.0",
+        "php": ">=8.0",
+        "ext-json": "*",
         "cebe/php-openapi": "^1.4",
         "fakerphp/faker": "^1.0",
-        "ext-json": "*"
+        "laravel/framework": "^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "intermax/php-integration-tools": "^1.0",
+        "orchestra/testbench": "^6.6"
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Intermax\\LaravelOpenApi\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -36,6 +40,12 @@
             "providers": [
                 "Intermax\\LaravelOpenApi\\OpenApiServiceProvider"
             ]
+        }
+    },
+    "repositories": {
+        "intermax": {
+            "type": "composer",
+            "url": "https://development.intermax-pages.nl/tools/composer-repository/"
         }
     },
     "scripts": {
