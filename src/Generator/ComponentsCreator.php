@@ -69,7 +69,7 @@ class ComponentsCreator
         foreach ($resourceArray as $item => $value) {
             $property = [];
 
-            if (!in_array($item, $fillableFields)) {
+            if (! in_array($item, $fillableFields)) {
                 $property['readOnly'] = true;
             }
 
@@ -80,7 +80,7 @@ class ComponentsCreator
             'type' => 'object',
             'description' => '',
             'properties' => $properties,
-            'example' => $resourceArray
+            'example' => $resourceArray,
         ];
 
         return $this;
@@ -104,7 +104,7 @@ class ComponentsCreator
     protected function determineProperty($dates, $item, $value): array
     {
         $property = [
-            'type' => gettype($value)
+            'type' => gettype($value),
         ];
 
         if (in_array($item, $dates) || $value instanceof Carbon) {
@@ -113,11 +113,10 @@ class ComponentsCreator
         }
 
         if ($property['type'] == 'array') {
-
             $firstItem = $value[array_key_first($value)] ?? null;
 
             $property['items'] = [
-                'type' => gettype($firstItem)
+                'type' => gettype($firstItem),
             ];
 
             if ($property['items']['type'] == 'object') {
@@ -142,11 +141,11 @@ class ComponentsCreator
     {
         $reflectionClass = new ReflectionClass($entity);
 
-        foreach($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+        foreach ($reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             if ($method->hasReturnType() && Str::contains($method->getReturnType()->getName(), [
                 'HasMany',
                 'BelongsTo',
-                'BelongsToMany'
+                'BelongsToMany',
             ])) {
                 $entity->load([$method->getName()]);
             }

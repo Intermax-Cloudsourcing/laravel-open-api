@@ -28,8 +28,7 @@ class Generator
         OperationCreator $operationCreator,
         ComponentsCreator $componentsCreator,
         Repository $config
-    )
-    {
+    ) {
         $this->router = $router;
         $this->operationCreator = $operationCreator;
         $this->componentsCreator = $componentsCreator;
@@ -47,24 +46,24 @@ class Generator
             'openapi' => '3.0.2',
             'info' => [
                 'title' => $this->config->get('open-api.name', 'API'),
-                'version' => $this->config->get('open-api.version', '1.0.0')
+                'version' => $this->config->get('open-api.version', '1.0.0'),
             ],
-            'paths' => []
+            'paths' => [],
         ]);
 
         $routes = $this->router->getRoutes()->getRoutes();
 
         foreach ($routes as $route) {
-            if (!$this->isApiRoute($route)) {
+            if (! $this->isApiRoute($route)) {
                 continue;
             }
 
-            if (!isset($openApi->paths['/' . $route->uri])) {
-                $openApi->paths['/' . $route->uri] = new PathItem([]);
+            if (! isset($openApi->paths['/'.$route->uri])) {
+                $openApi->paths['/'.$route->uri] = new PathItem([]);
             }
 
             foreach ($route->methods as $method) {
-                if (!$this->isApiMethod($method)) {
+                if (! $this->isApiMethod($method)) {
                     continue;
                 }
 
@@ -76,7 +75,7 @@ class Generator
 
                 $this->componentsCreator->addEntity(ucfirst($entityName));
 
-                $openApi->paths['/' . $route->uri]->$operationName = $this->operationCreator->create($action, $route->uri, $entityName);
+                $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create($action, $route->uri, $entityName);
             }
         }
 

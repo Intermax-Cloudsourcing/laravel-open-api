@@ -2,20 +2,20 @@
 
 namespace Intermax\LaravelOpenApi\Generator;
 
-use Intermax\LaravelOpenApi\Contracts\Filter;
-use Intermax\LaravelOpenApi\Contracts\FilterRequest;
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\Parameter;
 use cebe\openapi\spec\RequestBody;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
+use Intermax\LaravelOpenApi\Contracts\Filter;
+use Intermax\LaravelOpenApi\Contracts\FilterRequest;
 
 class OperationCreator
 {
     public function create(string $action, string $uri, string $entityName): Operation
     {
-        $createMethod = 'create' . ucfirst($action) . 'Operation';
+        $createMethod = 'create'.ucfirst($action).'Operation';
 
         return $this->$createMethod(ucfirst($entityName), $uri);
     }
@@ -34,7 +34,6 @@ class OperationCreator
             /** @var FilterRequest $filterRequest */
             $filterRequest = new $filterRequestClass();
 
-
             /** @var Filter $filter */
             foreach ($filterRequest->filters() as $filter) {
                 foreach ($filter->parameters() as $parameter => $type) {
@@ -43,8 +42,8 @@ class OperationCreator
                         'in' => 'query',
                         'required' => false,
                         'schema' => [
-                            'type' => $type
-                        ]
+                            'type' => $type,
+                        ],
                     ]);
                 }
             }
@@ -52,7 +51,7 @@ class OperationCreator
 
         return new Operation([
             'tags' => [
-                $entity
+                $entity,
             ],
             'operationId' => "get{$entity}Collection",
             'summary' => "Get a collection of {$entity} resources",
@@ -64,9 +63,9 @@ class OperationCreator
                     'description' => 'The collection page number',
                     'schema' => [
                         'type' => 'integer',
-                        'default' => 1
-                    ]
-                ])
+                        'default' => 1,
+                    ],
+                ]),
             ], $filterParameters),
             'responses' => new Responses([
                 200 => new Response([
@@ -79,46 +78,46 @@ class OperationCreator
                                     'hydra:member' => [
                                         'type' => 'array',
                                         'items' => [
-                                            '$ref' => "#components/schemas/{$entity}"
-                                        ]
+                                            '$ref' => "#components/schemas/{$entity}",
+                                        ],
                                     ],
                                     'hydra:totalItems' => [
                                         'type' => 'integer',
-                                        'minimum' => 0
+                                        'minimum' => 0,
                                     ],
                                     'hydra:view' => [
                                         'type' => 'object',
                                         'properties' => [
                                             '@id' => [
                                                 'type' => 'string',
-                                                'format' => 'iri-reference'
+                                                'format' => 'iri-reference',
                                             ],
                                             '@type' => [
-                                                'type' => 'string'
+                                                'type' => 'string',
                                             ],
                                             'hydra:first' => [
                                                 'type' => 'string',
-                                                'format' => 'iri-reference'
+                                                'format' => 'iri-reference',
                                             ],
                                             'hydra:last' => [
                                                 'type' => 'string',
-                                                'format' => 'iri-reference'
+                                                'format' => 'iri-reference',
                                             ],
                                             'hydra:next' => [
                                                 'type' => 'string',
-                                                'format' => 'iri-reference'
-                                            ]
-                                        ]
-                                    ]
+                                                'format' => 'iri-reference',
+                                            ],
+                                        ],
+                                    ],
                                 ],
                                 'required' => [
-                                    'hydra:member'
-                                ]
-                            ]
-                        ]
-                    ]
-                ])
-            ])
+                                    'hydra:member',
+                                ],
+                            ],
+                        ],
+                    ],
+                ]),
+            ]),
         ]);
     }
 
@@ -132,7 +131,7 @@ class OperationCreator
     {
         return new Operation([
             'tags' => [
-                $entity
+                $entity,
             ],
             'operationId' => "get{$entity}Item",
             'summary' => "Retrieves a {$entity} resource",
@@ -144,9 +143,9 @@ class OperationCreator
                     'required' => true,
                     'schema' => [
                         'type' => 'integer',
-                        'default' => 1
-                    ]
-                ])
+                        'default' => 1,
+                    ],
+                ]),
             ],
             'responses' => new Responses([
                 '200' => new Response([
@@ -154,15 +153,15 @@ class OperationCreator
                     'content' => [
                         'application/ld+json' => [
                             'schema' => [
-                                '$ref' => "#/components/schemas/{$entity}"
-                            ]
-                        ]
-                    ]
+                                '$ref' => "#/components/schemas/{$entity}",
+                            ],
+                        ],
+                    ],
                 ]),
                 '404' => [
-                    'description' => 'Resource not found'
-                ]
-            ])
+                    'description' => 'Resource not found',
+                ],
+            ]),
         ]);
     }
 
@@ -176,7 +175,7 @@ class OperationCreator
     {
         return new Operation([
             'tags' => [
-                $entity
+                $entity,
             ],
             'operationId' => "post{$entity}Collection",
             'summary' => "Creates a {$entity} resource",
@@ -186,20 +185,20 @@ class OperationCreator
                     'content' => [
                         'application/ld+json' => [
                             'schema' => [
-                                '$ref' => "#/components/schemas/{$entity}"
-                            ]
-                        ]
-                    ]
-                ])
+                                '$ref' => "#/components/schemas/{$entity}",
+                            ],
+                        ],
+                    ],
+                ]),
             ]),
             'requestBody' => new RequestBody([
                 'content' => [
                     'application/ld+json' => [
                         'schema' => [
-                            '$ref' => "#/components/schemas/{$entity}"
-                        ]
-                    ]
-                ]
+                            '$ref' => "#/components/schemas/{$entity}",
+                        ],
+                    ],
+                ],
             ]),
         ]);
     }
@@ -214,7 +213,7 @@ class OperationCreator
     {
         return new Operation([
             'tags' => [
-                $entity
+                $entity,
             ],
             'operationId' => "update{$entity}Item",
             'summary' => "Update a {$entity} resource",
@@ -226,9 +225,9 @@ class OperationCreator
                     'required' => true,
                     'schema' => [
                         'type' => 'integer',
-                        'default' => 1
-                    ]
-                ])
+                        'default' => 1,
+                    ],
+                ]),
             ],
             'responses' => new Responses([
                 200 => new Response([
@@ -236,20 +235,20 @@ class OperationCreator
                     'content' => [
                         'application/ld+json' => [
                             'schema' => [
-                                '$ref' => "#/components/schemas/{$entity}"
-                            ]
-                        ]
-                    ]
-                ])
+                                '$ref' => "#/components/schemas/{$entity}",
+                            ],
+                        ],
+                    ],
+                ]),
             ]),
             'requestBody' => new RequestBody([
                 'content' => [
                     'application/ld+json' => [
                         'schema' => [
-                            '$ref' => "#/components/schemas/{$entity}"
-                        ]
-                    ]
-                ]
+                            '$ref' => "#/components/schemas/{$entity}",
+                        ],
+                    ],
+                ],
             ]),
         ]);
     }
@@ -264,7 +263,7 @@ class OperationCreator
     {
         return new Operation([
             'tags' => [
-                $entity
+                $entity,
             ],
             'operationId' => "delete{$entity}Item",
             'summary' => "Deletes a {$entity} resource",
@@ -276,16 +275,16 @@ class OperationCreator
                     'required' => true,
                     'schema' => [
                         'type' => 'integer',
-                        'default' => 1
-                    ]
-                ])
+                        'default' => 1,
+                    ],
+                ]),
             ],
             'responses' => new Responses([
                 200 => new Response([
                     'description' => "{$entity} delete resource response",
-                    'content' => []
-                ])
-            ])
+                    'content' => [],
+                ]),
+            ]),
         ]);
     }
 }
