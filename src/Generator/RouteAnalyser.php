@@ -64,6 +64,7 @@ class RouteAnalyser
 
         $returnType = $reflectionMethod->getReturnType();
 
+        // Check if getReturnType() returns a ReflectionNamedType (other type does not provide getName() method)
         if (! $returnType || ! $returnType instanceof ReflectionNamedType) {
             return null;
         }
