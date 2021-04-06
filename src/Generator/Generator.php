@@ -26,13 +26,16 @@ class Generator
 
     protected RequestBodyCreator $requestBodyCreator;
 
+    protected ParametersCreator $parametersCreator;
+
     public function __construct(
         Router $router,
         OperationCreator $operationCreator,
         ComponentsCreator $componentsCreator,
         Repository $config,
         RouteAnalyser $routeAnalyser,
-        RequestBodyCreator $requestBodyCreator
+        RequestBodyCreator $requestBodyCreator,
+        ParametersCreator $parametersCreator
     ) {
         $this->router = $router;
         $this->operationCreator = $operationCreator;
@@ -40,6 +43,7 @@ class Generator
         $this->config = $config;
         $this->routeAnalyser = $routeAnalyser;
         $this->requestBodyCreator = $requestBodyCreator;
+        $this->parametersCreator = $parametersCreator;
     }
 
     /**
@@ -83,16 +87,19 @@ class Generator
                 $requestClassName = $this->routeAnalyser->determineRequestClass($route);
 
                 if ($requestClassName) {
-                    $requestBody = $this->requestBodyCreator->create(new $requestClassName());
+                    $requestClass = new $requestClassName();
+
+                    $requestBody = $this->requestBodyCreator->create($requestClass);
                 }
 
                 $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
 
                 $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create(
-                   $method,
-                   $this->deriveEntityNameFromUri($route->uri()),
-                   last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
-                   $requestBody ?? null
+                   method: $method,
+                   entity: $this->deriveEntityNameFromUri($route->uri()),
+                   resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
+                   requestBody: $requestBody ?? null,
+                   parameters: $this->parametersCreator->create($route, $requestClass ?? null)
                 );
 
                 unset($requestBody);
