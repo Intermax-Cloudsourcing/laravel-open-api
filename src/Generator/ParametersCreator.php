@@ -8,7 +8,8 @@ use Illuminate\Routing\Route;
 class ParametersCreator
 {
     public function __construct(
-        protected PathParametersCreator $pathParameterCreator
+        protected PathParametersCreator $pathParameterCreator,
+        protected FilterParametersCreator $filterParametersCreator,
     ) {
     }
 
@@ -21,6 +22,7 @@ class ParametersCreator
     {
         return array_merge(
             $this->pathParameterCreator->create($route),
+            $this->filterParametersCreator->create($route, $requestClass),
         );
     }
 }
