@@ -4,10 +4,10 @@ namespace Intermax\LaravelOpenApi\Generator;
 
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Routing\Route;
 use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiCollectionResource;
-use Intermax\LaravelApi\JsonApi\Resources\JsonApiResource;
 use Intermax\LaravelOpenApi\Generator\Exceptions\RouteNotSupportedException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -72,8 +72,8 @@ class RouteAnalyser
         $returnTypeReflectionClass = new ReflectionClass($returnType->getName());
 
         if (
-            $returnTypeReflectionClass->isSubclassOf(JsonApiCollectionResource::class)
-            || $returnTypeReflectionClass->isSubclassOf(JsonApiResource::class)
+            $returnTypeReflectionClass->isSubclassOf(ResourceCollection::class)
+            || $returnTypeReflectionClass->isSubclassOf(JsonResource::class)
         ) {
             return $returnTypeReflectionClass->getName();
         }

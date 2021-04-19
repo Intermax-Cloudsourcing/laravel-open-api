@@ -2,20 +2,24 @@
 
 namespace Intermax\LaravelOpenApi\Generator;
 
+use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\Parameter;
 use cebe\openapi\spec\RequestBody;
+use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
 
 class OperationCreator
 {
     /**
      * @param string $method
+     * @param string $entity
      * @param string $resource
      * @param null|RequestBody $requestBody
      * @param null|array<Parameter> $parameters
-     * @param null|Responses $responses
+     * @param null|Responses<Response> $responses
      * @return Operation
+     * @throws TypeErrorException
      */
     public function create(
         string $method,
@@ -24,7 +28,7 @@ class OperationCreator
         ?RequestBody $requestBody = null,
         ?array $parameters = null,
         ?Responses $responses = null
-    ) {
+    ): Operation {
         $method = strtolower($method);
 
         $operation = [

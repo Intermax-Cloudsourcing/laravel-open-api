@@ -10,3 +10,7 @@ services:
     security_opt:
       - no-new-privileges
     volumes: [{type: bind, source: ./, target: /var/www/html}]
+    stdin_open: true
+    tty: true
+    environment:
+      PHP_OPEN_BASEDIR: "/var/www/html/:/dev/shm/:/composer/:/usr/local/bin/:/.dockerenv:/proc/cpuinfo:/opt/"

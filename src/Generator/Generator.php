@@ -7,43 +7,22 @@ use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\Writer;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Str;
 use Throwable;
 
 class Generator
 {
-    protected Router $router;
-
-    protected OperationCreator $operationCreator;
-
-    protected ComponentsCreator $componentsCreator;
-
-    protected Repository $config;
-
-    protected RouteAnalyser $routeAnalyser;
-
-    protected RequestBodyCreator $requestBodyCreator;
-
-    protected ParametersCreator $parametersCreator;
-
     public function __construct(
-        Router $router,
-        OperationCreator $operationCreator,
-        ComponentsCreator $componentsCreator,
-        Repository $config,
-        RouteAnalyser $routeAnalyser,
-        RequestBodyCreator $requestBodyCreator,
-        ParametersCreator $parametersCreator
+        protected Router $router,
+        protected OperationCreator $operationCreator,
+        protected ComponentsCreator $componentsCreator,
+        protected Repository $config,
+        protected RouteAnalyser $routeAnalyser,
+        protected RequestBodyCreator $requestBodyCreator,
+        protected ParametersCreator $parametersCreator,
+        protected ResponsesCreator $responsesCreator
     ) {
-        $this->router = $router;
-        $this->operationCreator = $operationCreator;
-        $this->componentsCreator = $componentsCreator;
-        $this->config = $config;
-        $this->routeAnalyser = $routeAnalyser;
-        $this->requestBodyCreator = $requestBodyCreator;
-        $this->parametersCreator = $parametersCreator;
     }
 
     /**
@@ -64,7 +43,6 @@ class Generator
 
         $routes = $this->router->getRoutes()->getRoutes();
 
-        /** @var Route $route */
         foreach ($routes as $route) {
             if (
                 ! $this->routeAnalyser->isApiRoute($route)
@@ -94,12 +72,17 @@ class Generator
 
                 $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
 
+                if ($resourceClassName) {
+                    $response = $this->responsesCreator->createFromResource($resourceClassName);
+                }
+
                 $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create(
                    method: $method,
                    entity: $this->deriveEntityNameFromUri($route->uri()),
                    resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
                    requestBody: $requestBody ?? null,
-                   parameters: $this->parametersCreator->create($route, $requestClass ?? null)
+                   parameters: $this->parametersCreator->create($route, $requestClass ?? null),
+                   responses: $response ?? null,
                 );
 
                 unset($requestBody);
@@ -111,7 +94,7 @@ class Generator
         return Writer::writeToJson($openApi);
     }
 
-    protected function deriveEntityNameFromUri(string $uri)
+    protected function deriveEntityNameFromUri(string $uri): string
     {
         return Str::studly(Str::singular(explode('/', $uri)[0]));
     }

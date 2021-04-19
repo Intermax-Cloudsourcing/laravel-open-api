@@ -13,7 +13,8 @@
         "ext-json": "*",
         "cebe/php-openapi": "^1.4",
         "fakerphp/faker": "^1.0",
-        "laravel/framework": "^7.0 || ^8.0"
+        "laravel/framework": "^7.0 || ^8.0",
+        "phpdocumentor/reflection-docblock": "^5.2"
     },
     "require-dev": {
         "intermax/php-integration-tools": "^1.0",
