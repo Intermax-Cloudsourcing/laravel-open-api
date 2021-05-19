@@ -5,6 +5,7 @@ namespace Intermax\LaravelOpenApi\Generator;
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\OpenApi;
 use cebe\openapi\spec\PathItem;
+use cebe\openapi\spec\Server;
 use cebe\openapi\Writer;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Router;
@@ -38,9 +39,9 @@ class Generator
                 'title' => $this->config->get('open-api.name', 'API'),
                 'version' => $this->config->get('open-api.version', '1.0.0'),
             ],
-            'servers' => [
+            'servers' => new Server([
                 'url' => $this->config->get('app.url'),
-            ],
+            ]),
             'paths' => [],
         ]);
 
