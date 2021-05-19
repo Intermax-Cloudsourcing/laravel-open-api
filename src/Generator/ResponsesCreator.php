@@ -25,13 +25,16 @@ class ResponsesCreator
      */
     public function createFromResource(string $className): Responses
     {
-        $resource = $this->resourceFactory->createFromClassName($className);
+        try {
+            $resource = $this->resourceFactory->createFromClassName($className);
 
-        if (! $resource) {
+            if (! $resource) {
+                return new Responses([]);
+            }
+            $responseData = $resource->toArray($this->request);
+        } catch (\Throwable $e) {
             return new Responses([]);
         }
-
-        $responseData = $resource->toArray($this->request);
 
         $okResponse = new Response([
             '200' => [
