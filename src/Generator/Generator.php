@@ -38,6 +38,9 @@ class Generator
                 'title' => $this->config->get('open-api.name', 'API'),
                 'version' => $this->config->get('open-api.version', '1.0.0'),
             ],
+            'servers' => [
+                'url' => $this->config->get('app.url'),
+            ],
             'paths' => [],
         ]);
 
