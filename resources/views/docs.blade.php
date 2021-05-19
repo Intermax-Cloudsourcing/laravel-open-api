@@ -15,7 +15,7 @@
     </div>
     <script>
         const ui = SwaggerUIBundle({
-            url: "/docs/json",
+            url: "{{ config('app.url') }}/docs/json",
             dom_id: '#swagger-ui'
         })
     </script>
