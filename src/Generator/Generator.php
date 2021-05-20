@@ -27,11 +27,11 @@ class Generator
     }
 
     /**
+     * @param string $output json or yaml
      * @return string
-     * @throws Throwable
      * @throws TypeErrorException
      */
-    public function generate()
+    public function generate($output = 'json')
     {
         $openApi = new OpenApi([
             'openapi' => '3.0.2',
@@ -39,9 +39,11 @@ class Generator
                 'title' => $this->config->get('open-api.name', 'API'),
                 'version' => $this->config->get('open-api.version', '1.0.0'),
             ],
-            'servers' => new Server([
-                'url' => $this->config->get('app.url'),
-            ]),
+            'servers' => [
+                new Server([
+                    'url' => $this->config->get('app.url'),
+                ]),
+            ],
             'paths' => [],
         ]);
 
@@ -95,7 +97,10 @@ class Generator
 
         $openApi->components = $this->componentsCreator->get();
 
-        return Writer::writeToJson($openApi);
+        return match ($output) {
+            'yaml' => Writer::writeToYaml($openApi),
+            default => Writer::writeToJson($openApi),
+        };
     }
 
     protected function deriveEntityNameFromUri(string $uri): string
