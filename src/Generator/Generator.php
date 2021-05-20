@@ -94,8 +94,6 @@ class Generator
             }
         }
 
-        $openApi->components = $this->componentsCreator->get();
-
         return match ($output) {
             'yaml' => Writer::writeToYaml($openApi),
             default => Writer::writeToJson($openApi),
