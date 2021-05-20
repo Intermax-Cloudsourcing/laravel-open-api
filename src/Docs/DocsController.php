@@ -6,10 +6,8 @@ use cebe\openapi\exceptions\TypeErrorException;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Intermax\LaravelOpenApi\Generator\Generator;
-use Throwable;
 
 class DocsController
 {
