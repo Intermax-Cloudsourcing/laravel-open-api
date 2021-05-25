@@ -52,16 +52,14 @@ class ResourceFactory
     {
         $reflectionClass = new ReflectionClass($resourceClassName);
 
-        $model = $this->discoverFromAttribute($reflectionClass);
+        $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
 
         if ($model) {
-            return $this->attemptToFillModel($model);
-        }
+            $filledModel = $this->attemptToFillModel($model);
 
-        $model = $this->discoverFromDocBlockProperty($reflectionClass);
-
-        if ($model) {
-            return $this->attemptToFillModel($model);
+            if ($filledModel) {
+                return $filledModel;
+            }
         }
 
         return new ResourceInput();
@@ -126,8 +124,8 @@ class ResourceFactory
 
         try {
             return call_user_func([$className, 'factory'])->create();
-        } catch (Exception $e) {
-            return $model;
+        } catch (\Throwable $e) {
+            return null;
         } finally {
             $this->db->rollBack();
         }
