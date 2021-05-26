@@ -8,6 +8,7 @@ use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
 
 class ResponsesCreator
@@ -29,32 +30,47 @@ class ResponsesCreator
             $resource = $this->resourceFactory->createFromClassName($className);
 
             if (! $resource) {
-                return new Responses([]);
+                return $this->emptyResponse();
             }
+
             $responseData = $resource->toArray($this->request);
         } catch (\Throwable $e) {
-            return new Responses([]);
+            return $this->emptyResponse();
         }
 
-        $okResponse = new Response([
+        if ($resource instanceof ResourceCollection) {
+            $schemaProperties = [
+                'data' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => $this->createProperties($responseData[0]),
+                    ],
+                ],
+            ];
+        } else {
+            $schemaProperties = [
+                'data' => [
+                    'type' => 'object',
+                    'properties' => $this->createProperties($responseData),
+                ],
+            ];
+        }
+
+        $okResponse = [
             '200' => [
                 'content' => [
                     'application/vnd.api+json' => [
                         'schema' => [
                             'type' => 'object',
-                            'properties' => [
-                                'data' => [
-                                    'type' => 'object',
-                                    'properties' => $this->createProperties($responseData),
-                                ],
-                            ],
+                            'properties' => $schemaProperties,
                         ],
                     ],
                 ],
             ],
-        ]);
+        ];
 
-        return new Responses([$okResponse]);
+        return new Responses($okResponse);
     }
 
     protected function createProperties(array $responseData): array
@@ -70,13 +86,23 @@ class ResponsesCreator
                 ],
             ];
 
+            if ($type === 'array') {
+                $property[$name]['items'] = [
+                    'type' => $this->determineArrayItemType($value),
+                ];
+            }
+
             if ($type === 'date' || $type === 'date-time') {
                 $property[$name]['type'] = 'string';
                 $property[$name]['format'] = $type;
             }
 
             if ($type === 'object') {
-                $property[$name]['properties'] = $this->createProperties($value);
+                $value = json_decode(json_encode($value), true);
+
+                if (! empty($value)) {
+                    $property[$name]['properties'] = $this->createProperties($value);
+                }
             }
 
             $properties = array_merge($properties, $property);
@@ -89,6 +115,11 @@ class ResponsesCreator
     {
         if (is_object($value)) {
             $value = json_decode((string) json_encode($value), true);
+
+            // If it's empty it will return [] and the below if statement would return 'array', so we intercept.
+            if (empty($value)) {
+                return 'object';
+            }
         }
 
         if (is_array($value)) {
@@ -121,5 +152,35 @@ class ResponsesCreator
             'double' => 'number',
             default => 'string',
         };
+    }
+
+    /**
+     * @param array<mixed> $value
+     * @return string
+     */
+    protected function determineArrayItemType(array $value): string
+    {
+        if (empty($value)) {
+            return 'object';
+        }
+
+        $item = Arr::first($value);
+
+        return $this->determineType($item);
+    }
+
+    public function emptyResponse(): Responses
+    {
+        return new Responses([
+            '200' => [
+                'content' => [
+                    'application/vnd.api+json' => [
+                        'schema' => [
+                            'type' => 'object',
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

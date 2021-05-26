@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 use Intermax\LaravelOpenApi\Generator\Attributes\UsesModel;
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlockFactory;
@@ -30,10 +31,6 @@ class ResourceFactory
      */
     public function createFromClassName(string $resourceClassName): JsonResource | ResourceCollection | null
     {
-        if (str_contains($resourceClassName, 'Collection')) {
-            return null;
-        }
-
         $model = $this->discoverResourceModel($resourceClassName);
 
         if (! $model) {
@@ -51,6 +48,14 @@ class ResourceFactory
     protected function discoverResourceModel(string $resourceClassName): mixed
     {
         $reflectionClass = new ReflectionClass($resourceClassName);
+
+        if ($reflectionClass->isSubclassOf(ResourceCollection::class)) {
+            $properties = $reflectionClass->getDefaultProperties();
+
+            if ($properties['collects']) {
+                return new Collection([$this->discoverResourceModel($properties['collects'])]);
+            }
+        }
 
         $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
 
