@@ -59,6 +59,7 @@ class ResponsesCreator
 
         $okResponse = [
             '200' => [
+                'description' => (new \ReflectionClass($resource))->getShortName().' response.',
                 'content' => [
                     'application/vnd.api+json' => [
                         'schema' => [
@@ -173,6 +174,7 @@ class ResponsesCreator
     {
         return new Responses([
             '200' => [
+                'description' => 'OK Response.',
                 'content' => [
                     'application/vnd.api+json' => [
                         'schema' => [

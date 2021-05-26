@@ -23,6 +23,7 @@ class PathParametersCreator
             $parameters[] = new Parameter([
                 'name' => $parameterName,
                 'in' => 'path',
+                'required' => true,
                 'schema' => [
                     'type' => 'string',
                 ],

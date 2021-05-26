@@ -8,12 +8,12 @@ use UnhandledMatchError;
 
 class RequestBodyCreator
 {
-    public function create(FormRequest $request)
+    public function create(FormRequest $request): ?RequestBody
     {
         $body = [];
 
         if (! method_exists($request, 'rules') || empty($request->rules())) {
-            return new RequestBody($body);
+            return null;
         }
 
         $rules = $this->normalizeRules($request->rules());
