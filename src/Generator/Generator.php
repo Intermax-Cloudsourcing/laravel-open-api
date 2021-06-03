@@ -91,6 +91,7 @@ class Generator
                 );
 
                 unset($requestBody);
+                unset($response);
             }
         }
 

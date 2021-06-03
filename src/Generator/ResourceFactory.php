@@ -14,6 +14,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\Types\Object_;
 use ReflectionClass;
 use ReflectionException;
+use Throwable;
 
 class ResourceFactory
 {
@@ -27,7 +28,7 @@ class ResourceFactory
     /**
      * @param class-string $resourceClassName
      * @return JsonResource|ResourceCollection|null
-     * @throws ReflectionException|BindingResolutionException
+     * @throws ReflectionException|BindingResolutionException|Throwable
      */
     public function createFromClassName(string $resourceClassName): JsonResource | ResourceCollection | null
     {
@@ -44,6 +45,8 @@ class ResourceFactory
      * @param class-string $resourceClassName
      * @return mixed
      * @throws BindingResolutionException
+     * @throws ReflectionException
+     * @throws Throwable
      */
     protected function discoverResourceModel(string $resourceClassName): mixed
     {
@@ -97,6 +100,11 @@ class ResourceFactory
         return null;
     }
 
+    /**
+     * @param ReflectionClass $reflectionClass
+     * @return mixed
+     * @throws BindingResolutionException
+     */
     protected function discoverFromAttribute(ReflectionClass $reflectionClass): mixed
     {
         $attributes = $reflectionClass->getAttributes(UsesModel::class);
@@ -117,6 +125,11 @@ class ResourceFactory
         return null;
     }
 
+    /**
+     * @param mixed $model
+     * @return mixed
+     * @throws Throwable
+     */
     protected function attemptToFillModel(mixed $model): mixed
     {
         $className = get_class($model);
@@ -129,7 +142,7 @@ class ResourceFactory
 
         try {
             return call_user_func([$className, 'factory'])->create();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return null;
         } finally {
             $this->db->rollBack();

@@ -2,6 +2,7 @@
 
 namespace Intermax\LaravelOpenApi\Generator;
 
+use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Parameter;
 use Illuminate\Routing\Route;
 
@@ -10,6 +11,7 @@ class PathParametersCreator
     /**
      * @param Route $route
      * @return array<Parameter>
+     * @throws TypeErrorException
      */
     public function create(Route $route): array
     {

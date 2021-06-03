@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelOpenApi\Tests\Utilities;
+namespace Intermax\LaravelOpenApi\Tests\Utilities\ResourceInput;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
