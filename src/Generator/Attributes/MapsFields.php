@@ -3,6 +3,6 @@
 namespace Intermax\LaravelOpenApi\Generator\Attributes;
 
 #[\Attribute]
-class UsesModel extends Attribute
+class MapsFields extends Attribute
 {
 }

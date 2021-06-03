@@ -21,7 +21,7 @@ class RequestBodyCreator
         $properties = [];
 
         foreach ($rules as $name => $fieldRules) {
-            $nestedFieldNames = explode('.', $name);
+            $nestedFieldNames = explode('.', (string) $name);
             $fieldName = array_pop($nestedFieldNames);
 
             $property = [
@@ -103,11 +103,8 @@ class RequestBodyCreator
                         'digits',
                         'digits_between',
                         'numeric' => 'number',
-
                         'integer' => 'integer',
-
                         'boolean' => 'boolean',
-
                         'array' => 'array',
                     };
                 } catch (UnhandledMatchError $e) {

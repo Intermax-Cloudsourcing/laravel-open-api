@@ -7,6 +7,7 @@ use Carbon\Exceptions\InvalidFormatException;
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
@@ -15,7 +16,8 @@ class ResponsesCreator
 {
     public function __construct(
         protected Request $request,
-        protected ResourceFactory $resourceFactory
+        protected ResourceFactory $resourceFactory,
+        protected ResourceAnalyser $resourceAnalyser,
     ) {
     }
 
@@ -26,54 +28,42 @@ class ResponsesCreator
      */
     public function createFromResource(string $className): Responses
     {
-        try {
-            $resource = $this->resourceFactory->createFromClassName($className);
+        $mapping = $this->resourceAnalyser->retrieveMappingFromResource($className);
 
-            if (! $resource) {
-                return $this->emptyResponse();
-            }
-
-            $responseData = $resource->toArray($this->request);
-        } catch (\Throwable $e) {
-            return $this->emptyResponse();
+        if ($mapping) {
+            return $this->convertSchemaToResponse($mapping, $className);
         }
 
-        if ($resource instanceof ResourceCollection) {
-            $schemaProperties = [
-                'data' => [
-                    'type' => 'array',
-                    'items' => [
-                        'type' => 'object',
-                        'properties' => $this->createProperties($responseData[0]),
-                    ],
-                ],
-            ];
-        } else {
-            $schemaProperties = [
-                'data' => [
-                    'type' => 'object',
-                    'properties' => $this->createProperties($responseData),
-                ],
-            ];
-        }
-
-        $okResponse = [
-            '200' => [
-                'description' => (new \ReflectionClass($resource))->getShortName().' response.',
-                'content' => [
-                    'application/vnd.api+json' => [
-                        'schema' => [
-                            'type' => 'object',
-                            'properties' => $schemaProperties,
-                        ],
-                    ],
-                ],
-            ],
-        ];
-
-        return new Responses($okResponse);
+        return $this->discoverResponse($className);
     }
 
+    /**
+     * @param mixed $schema
+     * @param string|null $resourceName
+     * @return Responses<Response>
+     * @throws TypeErrorException
+     */
+    protected function convertSchemaToResponse(mixed $schema, ?string $className = null): Responses
+    {
+        if ($schema instanceof Arrayable) {
+            $schema = $schema->toArray();
+        }
+
+        return new Responses([
+            '200' => [
+                'description' => (string) Arr::last(explode('\\', (string) $className)).' response.',
+                'content' => [
+                    // Json encode/decode because
+                    'application/vnd.api+json' => ['schema' => $schema],
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @param array<mixed> $responseData
+     * @return array<mixed>
+     */
     protected function createProperties(array $responseData): array
     {
         $properties = [];
@@ -170,6 +160,10 @@ class ResponsesCreator
         return $this->determineType($item);
     }
 
+    /**
+     * @return Responses<Response>
+     * @throws TypeErrorException
+     */
     public function emptyResponse(): Responses
     {
         return new Responses([
@@ -184,5 +178,49 @@ class ResponsesCreator
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @param class-string $className
+     * @return Responses<Response>
+     * @throws TypeErrorException
+     */
+    public function discoverResponse(string $className): Responses
+    {
+        try {
+            $resource = $this->resourceFactory->createFromClassName($className);
+
+            if (! $resource) {
+                return $this->emptyResponse();
+            }
+
+            $responseData = $resource->toArray($this->request);
+        } catch (\Throwable $e) {
+            return $this->emptyResponse();
+        }
+
+        if ($resource instanceof ResourceCollection) {
+            $schemaProperties = [
+                'data' => [
+                    'type' => 'array',
+                    'items' => [
+                        'type' => 'object',
+                        'properties' => $this->createProperties($responseData[0]),
+                    ],
+                ],
+            ];
+        } else {
+            $schemaProperties = [
+                'data' => [
+                    'type' => 'object',
+                    'properties' => $this->createProperties($responseData),
+                ],
+            ];
+        }
+
+        return $this->convertSchemaToResponse([
+            'type' => 'object',
+            'properties' => $schemaProperties,
+        ], $className);
     }
 }
