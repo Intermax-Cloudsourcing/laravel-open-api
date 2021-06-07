@@ -2,6 +2,7 @@
 
 namespace Intermax\LaravelOpenApi\Generator;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\DatabaseManager;
@@ -22,6 +23,7 @@ class ResourceFactory
         protected DocBlockFactory $docBlockFactory,
         protected Application $app,
         protected DatabaseManager $db,
+        protected Repository $config,
     ) {
     }
 
@@ -62,7 +64,7 @@ class ResourceFactory
 
         $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
 
-        if ($model) {
+        if ($model && $this->config->get('open-api.use_model_factories')) {
             $filledModel = $this->attemptToFillModel($model);
 
             if ($filledModel) {
