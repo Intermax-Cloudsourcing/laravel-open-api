@@ -6,7 +6,12 @@ class ResourceInput implements \JsonSerializable
 {
     public function __isset(string $name): bool
     {
-        return true;
+        // This prevents resources accidentally thinking a relation is loaded by only returning true for the id property.
+        if ($name == 'id') {
+            return true;
+        }
+
+        return false;
     }
 
     public function __get(string $name): string

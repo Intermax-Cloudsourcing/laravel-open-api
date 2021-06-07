@@ -11,6 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
+use Intermax\LaravelOpenApi\Generator\Values\Value;
 
 class ResponsesCreator
 {
@@ -61,10 +62,10 @@ class ResponsesCreator
     }
 
     /**
-     * @param array<mixed> $responseData
+     * @param array<mixed>|object $responseData
      * @return array<mixed>
      */
-    protected function createProperties(array $responseData): array
+    protected function createProperties(object | array $responseData): array
     {
         $properties = [];
 
@@ -89,8 +90,6 @@ class ResponsesCreator
             }
 
             if ($type === 'object') {
-                $value = json_decode(json_encode($value), true);
-
                 if (! empty($value)) {
                     $property[$name]['properties'] = $this->createProperties($value);
                 }
@@ -104,6 +103,10 @@ class ResponsesCreator
 
     protected function determineType(mixed $value): string
     {
+        if ($value instanceof Value) {
+            return $value->getType();
+        }
+
         if (is_object($value)) {
             $value = json_decode((string) json_encode($value), true);
 
