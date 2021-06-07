@@ -62,13 +62,15 @@ class ResourceFactory
             }
         }
 
-        $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
+        if ($this->config->get('open-api.use_model_factories')) {
+            $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
 
-        if ($model && $this->config->get('open-api.use_model_factories')) {
-            $filledModel = $this->attemptToFillModel($model);
+            if ($model) {
+                $filledModel = $this->attemptToFillModel($model);
 
-            if ($filledModel) {
-                return $filledModel;
+                if ($filledModel) {
+                    return $filledModel;
+                }
             }
         }
 
