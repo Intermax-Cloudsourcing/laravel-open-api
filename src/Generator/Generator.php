@@ -87,7 +87,7 @@ class Generator
                    resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
                    requestBody: $requestBody ?? null,
                    parameters: $this->parametersCreator->create($route, $requestClass ?? null),
-                   responses: $response ?? null,
+                   responses: $response ?? $this->responsesCreator->emptyResponse(),
                 );
 
                 unset($requestBody);

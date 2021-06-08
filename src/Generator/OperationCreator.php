@@ -27,7 +27,7 @@ class OperationCreator
         string $resource,
         ?RequestBody $requestBody = null,
         ?array $parameters = null,
-        ?Responses $responses = null
+        Responses $responses
     ): Operation {
         $method = strtolower($method);
 
@@ -46,7 +46,7 @@ class OperationCreator
             $operation['parameters'] = $parameters;
         }
 
-        $operation['responses'] = $responses ?? new Responses([]);
+        $operation['responses'] = $responses;
 
         return new Operation($operation);
     }

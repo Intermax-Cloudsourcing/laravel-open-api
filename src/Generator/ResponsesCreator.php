@@ -90,8 +90,10 @@ class ResponsesCreator
             }
 
             if ($type === 'object') {
-                if (! empty($value)) {
-                    $property[$name]['properties'] = $this->createProperties($value);
+                $subProperties = $this->createProperties($value);
+
+                if (! empty($subProperties)) {
+                    $property[$name]['properties'] = $subProperties;
                 }
             }
 
