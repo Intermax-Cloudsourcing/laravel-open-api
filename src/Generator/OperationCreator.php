@@ -25,9 +25,9 @@ class OperationCreator
         string $method,
         string $entity,
         string $resource,
+        Responses $responses,
         ?RequestBody $requestBody = null,
         ?array $parameters = null,
-        Responses $responses
     ): Operation {
         $method = strtolower($method);
 
