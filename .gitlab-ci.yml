@@ -1,8 +1,8 @@
 ---
 include:
-  - project: development/gitlab-includes/composer
-    ref: master
-    file: trigger-repository.yml
+  - project: development/gitlab-includes/services
+    ref: 4.2.3
+    file: trigger-composer-repository.yml
   - project: development/gitlab-includes/services
     ref: 1.3.0
     file: defaults.yml
