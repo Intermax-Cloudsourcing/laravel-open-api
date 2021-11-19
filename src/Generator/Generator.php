@@ -56,8 +56,10 @@ class Generator
                 continue;
             }
 
-            if (! isset($openApi->paths['/'.$route->uri])) {
-                $openApi->paths['/'.$route->uri] = new PathItem([]);
+            $path = '/'.ltrim($route->uri, '/');
+
+            if (! isset($openApi->paths[$path])) {
+                $openApi->paths[$path] = new PathItem([]);
             }
 
             foreach ($route->methods as $method) {
@@ -81,7 +83,7 @@ class Generator
                     $response = $this->responsesCreator->createFromResource($resourceClassName);
                 }
 
-                $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create(
+                $openApi->paths[$path]->$operationName = $this->operationCreator->create(
                     method: $method,
                     entity: $this->deriveEntityNameFromUri($route->uri()),
                     resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
