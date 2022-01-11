@@ -1,17 +1,21 @@
 ---
+variables:
+  # allow failure of phpstan for now
+  PHPSTAN_ALLOW_FAILURE: "true"
+
 include:
   - project: development/gitlab-includes/services
-    ref: 4.2.3
+    ref: 5.1.5
     file: trigger-composer-repository.yml
   - project: development/gitlab-includes/services
-    ref: 1.3.0
+    ref: 5.1.5
     file: defaults.yml
   - project: development/gitlab-includes/services
-    ref: 1.3.0
+    ref: 5.1.5
     file: php-lint.yml
   - project: development/gitlab-includes/services
-    ref: 1.3.0
+    ref: 5.1.5
     file: php-unit.yml
   - project: development/gitlab-includes/services
-    ref: 1.3.0
+    ref: 5.1.5
     file: trigger-general-docs.yml
