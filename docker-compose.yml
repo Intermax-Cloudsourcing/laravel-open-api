@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   php-cli:
-    image: eu.gcr.io/intermax-group-262516/tools/composer:latest
+    image: repo.harbor.intermax.nl/dockerhub-proxy/intermaxgroup/composer:latest
     shm_size: 1024m
     cap_drop:
       - ALL
@@ -12,5 +12,3 @@ services:
     volumes: [{type: bind, source: ./, target: /var/www/html}]
     stdin_open: true
     tty: true
-    environment:
-      PHP_OPEN_BASEDIR: "/var/www/html/:/dev/shm/:/composer/:/usr/local/bin/:/.dockerenv:/proc/cpuinfo:/opt/"

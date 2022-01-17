@@ -82,12 +82,12 @@ class Generator
                 }
 
                 $openApi->paths['/'.$route->uri]->$operationName = $this->operationCreator->create(
-                   method: $method,
-                   entity: $this->deriveEntityNameFromUri($route->uri()),
-                   resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
-                   requestBody: $requestBody ?? null,
-                   parameters: $this->parametersCreator->create($route, $requestClass ?? null),
-                   responses: $response ?? $this->responsesCreator->emptyResponse(),
+                    method: $method,
+                    entity: $this->deriveEntityNameFromUri($route->uri()),
+                    resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
+                    requestBody: $requestBody ?? null,
+                    parameters: $this->parametersCreator->create($route, $requestClass ?? null),
+                    responses: $response ?? $this->responsesCreator->emptyResponse(),
                 );
 
                 unset($requestBody);
