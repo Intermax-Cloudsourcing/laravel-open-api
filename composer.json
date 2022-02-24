@@ -17,7 +17,6 @@
         "phpdocumentor/reflection-docblock": "^5.2"
     },
     "require-dev": {
-        "intermax/php-integration-tools": "^3.0",
         "orchestra/testbench": "^6.6 || ^7.0"
     },
     "autoload-dev": {
@@ -41,12 +40,6 @@
             "providers": [
                 "Intermax\\LaravelOpenApi\\OpenApiServiceProvider"
             ]
-        }
-    },
-    "repositories": {
-        "intermax": {
-            "type": "composer",
-            "url": "https://development.intermax-pages.nl/tools/composer-repository/"
         }
     },
     "scripts": {
