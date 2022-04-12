@@ -40,9 +40,13 @@ class RouteAnalyser
         $reflectionMethod = $this->getReflectionMethod($route);
 
         foreach ($reflectionMethod->getParameters() as $parameter) {
-            $parameterClassName = $parameter->getType()->getName();
+            if (! $parameter->hasType()) {
+                continue;
+            }
 
-            if (! class_exists($parameterClassName)) {
+            $parameterClassName = $parameter->getType()?->getName();
+
+            if (is_null($parameterClassName) || ! class_exists($parameterClassName)) {
                 continue;
             }
 
