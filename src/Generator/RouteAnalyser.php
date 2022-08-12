@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Routing\Route;
-use Intermax\LaravelApi\JsonApi\Requests\FilterRequest;
 use Intermax\LaravelOpenApi\Generator\Exceptions\RouteNotSupportedException;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -52,10 +51,8 @@ class RouteAnalyser
 
             $parameterReflectionClass = new ReflectionClass($parameterClassName);
 
-            foreach ([FilterRequest::class, FormRequest::class] as $parentClass) {
-                if ($parameterReflectionClass->isSubclassOf($parentClass)) {
-                    return $parameterReflectionClass->getName();
-                }
+            if ($parameterReflectionClass->isSubclassOf(FormRequest::class)) {
+                return $parameterReflectionClass->getName();
             }
         }
 
