@@ -7,6 +7,7 @@ use Carbon\Exceptions\InvalidFormatException;
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -19,6 +20,7 @@ class ResponsesCreator
         protected Request $request,
         protected ResourceFactory $resourceFactory,
         protected ResourceAnalyser $resourceAnalyser,
+        protected Repository $config,
     ) {
     }
 
@@ -56,8 +58,7 @@ class ResponsesCreator
             '200' => [
                 'description' => (string) Arr::last(explode('\\', (string) $className)).' response.',
                 'content' => [
-                    // Json encode/decode because
-                    'application/vnd.api+json' => ['schema' => $schema],
+                    $this->config->get('open-api.content_type') => ['schema' => $schema],
                 ],
             ],
         ]);
@@ -178,7 +179,7 @@ class ResponsesCreator
             '200' => [
                 'description' => 'OK Response.',
                 'content' => [
-                    'application/vnd.api+json' => [
+                    $this->config->get('open-api.content_type') => [
                         'schema' => [
                             'type' => 'object',
                         ],

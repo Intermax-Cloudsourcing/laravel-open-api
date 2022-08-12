@@ -65,7 +65,7 @@ class ResponseDiscoveryTest extends TestCase
      */
     protected function getSchema(array $spec): ?array
     {
-        return $spec['paths']['/things']['post']['responses']['200']['content']['application/vnd.api+json']['schema'];
+        return $spec['paths']['/things']['post']['responses']['200']['content']['application/json']['schema'];
     }
 
     protected function assertNumberOfSubThingsIsInteger($spec): void

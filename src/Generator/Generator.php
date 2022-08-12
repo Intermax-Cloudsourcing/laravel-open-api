@@ -36,7 +36,7 @@ class Generator
         $openApi = new OpenApi([
             'openapi' => '3.0.2',
             'info' => [
-                'title' => $this->config->get('open-api.name', 'API'),
+                'title' => $this->config->get('open-api.name') ?? $this->config->get('app.name'),
                 'version' => $this->config->get('open-api.version', '1.0.0'),
             ],
             'servers' => [
