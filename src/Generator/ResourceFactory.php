@@ -22,7 +22,6 @@ class ResourceFactory
     public function __construct(
         protected DocBlockFactory $docBlockFactory,
         protected Application $app,
-        protected DatabaseManager $db,
         protected Repository $config,
     ) {
     }
@@ -61,18 +60,6 @@ class ResourceFactory
 
             if ($properties['collects']) {
                 return new Collection([$this->discoverResourceModel($properties['collects'])]);
-            }
-        }
-
-        if ($this->config->get('open-api.use_model_factories')) {
-            $model = $this->discoverFromAttribute($reflectionClass) ?? $this->discoverFromDocBlockProperty($reflectionClass);
-
-            if ($model) {
-                $filledModel = $this->attemptToFillModel($model);
-
-                if ($filledModel) {
-                    return $filledModel;
-                }
             }
         }
 
@@ -131,30 +118,5 @@ class ResourceFactory
         }
 
         return null;
-    }
-
-    /**
-     * @param  mixed  $model
-     * @return mixed
-     *
-     * @throws Throwable
-     */
-    protected function attemptToFillModel(mixed $model): mixed
-    {
-        $className = get_class($model);
-
-        if (! is_callable([$className, 'factory'])) {
-            return $model;
-        }
-
-        $this->db->beginTransaction();
-
-        try {
-            return call_user_func([$className, 'factory'])->create();
-        } catch (Throwable $e) {
-            return null;
-        } finally {
-            $this->db->rollBack();
-        }
     }
 }
