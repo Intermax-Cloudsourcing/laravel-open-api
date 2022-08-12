@@ -1,0 +1,191 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Contracts\\\\Filter\\:\\:parameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Contracts/Filter.php
+
+		-
+			message: "#^Abstract class Intermax\\\\LaravelOpenApi\\\\Generator\\\\Attributes\\\\Attribute cannot be an Attribute class\\.$#"
+			count: 1
+			path: src/Generator/Attributes/Attribute.php
+
+		-
+			message: "#^Cannot call method getName\\(\\) on ReflectionType\\|null\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Function factory not found\\.$#"
+			count: 2
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:determineProperty\\(\\) has parameter \\$dates with no type specified\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:determineProperty\\(\\) has parameter \\$item with no type specified\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:determineProperty\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:loadAllRelations\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:loadAllRelations\\(\\) has parameter \\$entity with no type specified\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Property Intermax\\\\LaravelOpenApi\\\\Generator\\\\ComponentsCreator\\:\\:\\$schemas type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Variable \\$entity in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Generator/ComponentsCreator.php
+
+		-
+			message: "#^Parameter \\#1 \\$request of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\RequestBodyCreator\\:\\:create\\(\\) expects Illuminate\\\\Foundation\\\\Http\\\\FormRequest, object given\\.$#"
+			count: 1
+			path: src/Generator/Generator.php
+
+		-
+			message: "#^Parameter \\#2 \\$requestClass of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ParametersCreator\\:\\:create\\(\\) expects Illuminate\\\\Foundation\\\\Http\\\\FormRequest\\|null, object\\|null given\\.$#"
+			count: 1
+			path: src/Generator/Generator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\ObjectType\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/Mapping/ObjectType.php
+
+		-
+			message: "#^Class Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Property implements generic interface Illuminate\\\\Contracts\\\\Support\\\\Arrayable but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Generator/Mapping/Property.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Property\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/Mapping/Property.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Property\\:\\:__toString\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: src/Generator/Mapping/Property.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Generator/Mapping/Property.php
+
+		-
+			message: "#^Property Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Property\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/Mapping/Property.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Schema\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Generator/Mapping/Schema.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\OperationCreator\\:\\:create\\(\\) has parameter \\$responses with no value type specified in iterable type cebe\\\\openapi\\\\spec\\\\Responses\\.$#"
+			count: 1
+			path: src/Generator/OperationCreator.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$responses with type \\(cebe\\\\openapi\\\\spec\\\\Responses&iterable\\<cebe\\\\openapi\\\\spec\\\\Response\\>\\)\\|null is not subtype of native type cebe\\\\openapi\\\\spec\\\\Responses\\.$#"
+			count: 1
+			path: src/Generator/OperationCreator.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ResourceFactory\\:\\:createFromClassName\\(\\) should return Illuminate\\\\Http\\\\Resources\\\\Json\\\\JsonResource\\|null but returns object\\.$#"
+			count: 1
+			path: src/Generator/ResourceFactory.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ResourceFactory\\:\\:discoverFromAttribute\\(\\) has parameter \\$reflectionClass with generic class ReflectionClass but does not specify its types\\: T$#"
+			count: 1
+			path: src/Generator/ResourceFactory.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ResourceFactory\\:\\:discoverFromDocBlockProperty\\(\\) has parameter \\$reflectionClass with generic class ReflectionClass but does not specify its types\\: T$#"
+			count: 1
+			path: src/Generator/ResourceFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of function call_user_func expects callable\\(\\)\\: mixed, array\\{class\\-string, 'factory'\\} given\\.$#"
+			count: 1
+			path: src/Generator/ResourceFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$docblock of method phpDocumentor\\\\Reflection\\\\DocBlockFactory\\:\\:create\\(\\) expects object\\|string, string\\|false given\\.$#"
+			count: 1
+			path: src/Generator/ResourceFactory.php
+
+		-
+			message: "#^Argument of an invalid type array\\|object supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/Generator/ResponsesCreator.php
+
+		-
+			message: "#^Cannot access offset 0 on array\\|Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\|JsonSerializable\\.$#"
+			count: 1
+			path: src/Generator/ResponsesCreator.php
+
+		-
+			message: "#^PHPDoc tag @param references unknown parameter\\: \\$resourceName$#"
+			count: 1
+			path: src/Generator/ResponsesCreator.php
+
+		-
+			message: "#^Parameter \\#1 \\$className of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ResourceAnalyser\\:\\:retrieveMappingFromResource\\(\\) expects class\\-string, string given\\.$#"
+			count: 1
+			path: src/Generator/ResponsesCreator.php
+
+		-
+			message: "#^Parameter \\#1 \\$className of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ResponsesCreator\\:\\:discoverResponse\\(\\) expects class\\-string, string given\\.$#"
+			count: 1
+			path: src/Generator/ResponsesCreator.php
+
+		-
+			message: "#^Class Intermax\\\\LaravelApi\\\\JsonApi\\\\Requests\\\\FilterRequest not found\\.$#"
+			count: 1
+			path: src/Generator/RouteAnalyser.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\RouteAnalyser\\:\\:determineRequestClass\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Generator/RouteAnalyser.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\RouteAnalyser\\:\\:determineResourceClass\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Generator/RouteAnalyser.php
+
+		-
+			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\RouteAnalyser\\:\\:getReflectionMethod\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Generator/RouteAnalyser.php
+
+		-
+			message: "#^Parameter \\#1 \\$objectOrClass of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			count: 1
+			path: src/Generator/RouteAnalyser.php
