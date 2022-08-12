@@ -24,6 +24,7 @@ class ResponseMappingTest extends TestCase
 
     /**
      * @test
+     *
      * @throws TypeErrorException
      */
     public function it_can_map_resource_with_a_mapper_class()
@@ -43,7 +44,7 @@ class ResponseMappingTest extends TestCase
     }
 
     /**
-     * @param Router $router
+     * @param  Router  $router
      * @return void
      */
     protected function defineRoutes($router)
@@ -54,7 +55,7 @@ class ResponseMappingTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $spec
+     * @param  array<mixed>  $spec
      */
     protected function assert200ResponseExists(array $spec): void
     {
@@ -62,7 +63,7 @@ class ResponseMappingTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $spec
+     * @param  array<mixed>  $spec
      * @return array<mixed>
      */
     protected function getSchema(array $spec): array

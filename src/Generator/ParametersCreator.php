@@ -14,8 +14,8 @@ class ParametersCreator
     }
 
     /**
-     * @param Route $route
-     * @param null|FormRequest $requestClass
+     * @param  Route  $route
+     * @param  null|FormRequest  $requestClass
      * @return array<mixed>
      */
     public function create(Route $route, ?FormRequest $requestClass = null): array

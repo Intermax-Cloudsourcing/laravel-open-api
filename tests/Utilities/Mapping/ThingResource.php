@@ -15,7 +15,7 @@ use Intermax\LaravelOpenApi\Generator\ResourceInput;
 class ThingResource extends JsonResource
 {
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return array<mixed>
      */
     public function toArray($request)

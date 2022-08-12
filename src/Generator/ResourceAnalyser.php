@@ -11,7 +11,8 @@ use ReflectionException;
 class ResourceAnalyser
 {
     /**
-     * @param class-string $className
+     * @param  class-string  $className
+     *
      * @throws ReflectionException
      */
     public function retrieveMappingFromResource(string $className): ?Schema

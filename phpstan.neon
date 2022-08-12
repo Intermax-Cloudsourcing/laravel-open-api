@@ -1,0 +1,16 @@
+includes:
+    - %currentWorkingDirectory%/vendor/nunomaduro/larastan/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+
+    paths:
+       - %currentWorkingDirectory%
+
+    level: 8
+
+    excludePaths:
+        - %currentWorkingDirectory%/tests/
+        - %currentWorkingDirectory%/vendor/
+
+    checkMissingIterableValueType: true
