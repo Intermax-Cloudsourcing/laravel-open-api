@@ -3,11 +3,16 @@
 namespace Intermax\LaravelOpenApi\Generator;
 
 use cebe\openapi\spec\RequestBody;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\FormRequest;
 use UnhandledMatchError;
 
 class RequestBodyCreator
 {
+    public function __construct(private Repository $config)
+    {
+    }
+
     public function create(FormRequest $request): ?RequestBody
     {
         $body = [];
@@ -62,7 +67,7 @@ class RequestBodyCreator
         }
 
         $body['content'] = [
-            'application/vnd.api+json' => [
+            $this->config->get('open-api.content_type') => [
                 'schema' => [
                     'type' => 'object',
                     'properties' => $properties,
