@@ -12,13 +12,14 @@ use cebe\openapi\spec\Responses;
 class OperationCreator
 {
     /**
-     * @param string $method
-     * @param string $entity
-     * @param string $resource
-     * @param null|RequestBody $requestBody
-     * @param null|array<Parameter> $parameters
-     * @param null|Responses<Response> $responses
+     * @param  string  $method
+     * @param  string  $entity
+     * @param  string  $resource
+     * @param  null|RequestBody  $requestBody
+     * @param  null|array<Parameter>  $parameters
+     * @param  null|Responses<Response>  $responses
      * @return Operation
+     *
      * @throws TypeErrorException
      */
     public function create(

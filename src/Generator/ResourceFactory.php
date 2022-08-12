@@ -28,8 +28,9 @@ class ResourceFactory
     }
 
     /**
-     * @param class-string $resourceClassName
+     * @param  class-string  $resourceClassName
      * @return JsonResource|ResourceCollection|null
+     *
      * @throws ReflectionException|BindingResolutionException|Throwable
      */
     public function createFromClassName(string $resourceClassName): JsonResource | ResourceCollection | null
@@ -44,8 +45,9 @@ class ResourceFactory
     }
 
     /**
-     * @param class-string $resourceClassName
+     * @param  class-string  $resourceClassName
      * @return mixed
+     *
      * @throws BindingResolutionException
      * @throws ReflectionException
      * @throws Throwable
@@ -78,8 +80,9 @@ class ResourceFactory
     }
 
     /**
-     * @param ReflectionClass $reflectionClass
+     * @param  ReflectionClass  $reflectionClass
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function discoverFromDocBlockProperty(ReflectionClass $reflectionClass): mixed
@@ -105,8 +108,9 @@ class ResourceFactory
     }
 
     /**
-     * @param ReflectionClass $reflectionClass
+     * @param  ReflectionClass  $reflectionClass
      * @return mixed
+     *
      * @throws BindingResolutionException
      */
     protected function discoverFromAttribute(ReflectionClass $reflectionClass): mixed
@@ -130,8 +134,9 @@ class ResourceFactory
     }
 
     /**
-     * @param mixed $model
+     * @param  mixed  $model
      * @return mixed
+     *
      * @throws Throwable
      */
     protected function attemptToFillModel(mixed $model): mixed

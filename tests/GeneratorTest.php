@@ -35,7 +35,7 @@ class GeneratorTest extends TestCase
     }
 
     /**
-     * @param Router $router
+     * @param  Router  $router
      * @return void
      */
     protected function defineRoutes($router)

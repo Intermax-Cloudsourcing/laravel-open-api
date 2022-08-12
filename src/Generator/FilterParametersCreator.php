@@ -10,7 +10,7 @@ use Intermax\LaravelOpenApi\Contracts\FilterRequest;
 class FilterParametersCreator
 {
     /**
-     * @param Route $route
+     * @param  Route  $route
      * @return array<Parameter>
      */
     public function create(Route $route, ?FormRequest $formRequest = null): array

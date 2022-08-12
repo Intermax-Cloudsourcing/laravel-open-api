@@ -23,8 +23,9 @@ class ResponsesCreator
     }
 
     /**
-     * @param string $className
+     * @param  string  $className
      * @return Responses<Response>
+     *
      * @throws TypeErrorException
      */
     public function createFromResource(string $className): Responses
@@ -39,9 +40,10 @@ class ResponsesCreator
     }
 
     /**
-     * @param mixed $schema
-     * @param string|null $resourceName
+     * @param  mixed  $schema
+     * @param  string|null  $resourceName
      * @return Responses<Response>
+     *
      * @throws TypeErrorException
      */
     protected function convertSchemaToResponse(mixed $schema, ?string $className = null): Responses
@@ -62,7 +64,7 @@ class ResponsesCreator
     }
 
     /**
-     * @param array<mixed>|object $responseData
+     * @param  array<mixed>|object  $responseData
      * @return array<mixed>
      */
     protected function createProperties(object | array $responseData): array
@@ -151,7 +153,7 @@ class ResponsesCreator
     }
 
     /**
-     * @param array<mixed> $value
+     * @param  array<mixed>  $value
      * @return string
      */
     protected function determineArrayItemType(array $value): string
@@ -167,6 +169,7 @@ class ResponsesCreator
 
     /**
      * @return Responses<Response>
+     *
      * @throws TypeErrorException
      */
     public function emptyResponse(): Responses
@@ -186,8 +189,9 @@ class ResponsesCreator
     }
 
     /**
-     * @param class-string $className
+     * @param  class-string  $className
      * @return Responses<Response>
+     *
      * @throws TypeErrorException
      */
     public function discoverResponse(string $className): Responses

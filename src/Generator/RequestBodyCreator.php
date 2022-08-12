@@ -74,7 +74,7 @@ class RequestBodyCreator
     }
 
     /**
-     * @param array<mixed> $rules
+     * @param  array<mixed>  $rules
      * @return array<mixed>
      */
     protected function normalizeRules(array $rules): array
@@ -89,7 +89,7 @@ class RequestBodyCreator
     }
 
     /**
-     * @param array<mixed> $fieldRules
+     * @param  array<mixed>  $fieldRules
      * @return string
      */
     protected function determineFieldType(array $fieldRules): string

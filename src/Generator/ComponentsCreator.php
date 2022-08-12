@@ -30,8 +30,9 @@ class ComponentsCreator
     }
 
     /**
-     * @param string $entityName
+     * @param  string  $entityName
      * @return $this
+     *
      * @throws Throwable
      */
     public function addEntity(string $entityName)
@@ -88,6 +89,7 @@ class ComponentsCreator
 
     /**
      * @return Components
+     *
      * @throws TypeErrorException
      */
     public function get()
@@ -98,7 +100,7 @@ class ComponentsCreator
     /**
      * @param $dates
      * @param $item
-     * @param mixed $value
+     * @param  mixed  $value
      * @return array
      */
     protected function determineProperty($dates, $item, $value): array
@@ -135,6 +137,7 @@ class ComponentsCreator
 
     /**
      * @param $entity
+     *
      * @throws ReflectionException
      */
     protected function loadAllRelations($entity)

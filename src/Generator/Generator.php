@@ -26,8 +26,9 @@ class Generator
     }
 
     /**
-     * @param string $output json or yaml
+     * @param  string  $output json or yaml
      * @return string
+     *
      * @throws TypeErrorException
      */
     public function generate($output = 'json')

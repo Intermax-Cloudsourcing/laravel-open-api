@@ -6,7 +6,7 @@ namespace Intermax\LaravelOpenApi\Generator\Attributes;
 abstract class Attribute
 {
     /**
-     * @param string|class-string $className
+     * @param  string|class-string  $className
      */
     public function __construct(
         protected string $className
