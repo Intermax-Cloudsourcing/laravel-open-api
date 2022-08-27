@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Contracts\\\\Filter\\:\\:parameters\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Contracts/Filter.php
-
-		-
 			message: "#^Abstract class Intermax\\\\LaravelOpenApi\\\\Generator\\\\Attributes\\\\Attribute cannot be an Attribute class\\.$#"
 			count: 1
 			path: src/Generator/Attributes/Attribute.php
@@ -59,16 +54,6 @@ parameters:
 			message: "#^Variable \\$entity in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Generator/ComponentsCreator.php
-
-		-
-			message: "#^Parameter \\#1 \\$request of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\RequestBodyCreator\\:\\:create\\(\\) expects Illuminate\\\\Foundation\\\\Http\\\\FormRequest, object given\\.$#"
-			count: 1
-			path: src/Generator/Generator.php
-
-		-
-			message: "#^Parameter \\#2 \\$requestClass of method Intermax\\\\LaravelOpenApi\\\\Generator\\\\ParametersCreator\\:\\:create\\(\\) expects Illuminate\\\\Foundation\\\\Http\\\\FormRequest\\|null, object\\|null given\\.$#"
-			count: 1
-			path: src/Generator/Generator.php
 
 		-
 			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\ObjectType\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"

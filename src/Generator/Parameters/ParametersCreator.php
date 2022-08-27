@@ -1,7 +1,8 @@
 <?php
 
-namespace Intermax\LaravelOpenApi\Generator;
+namespace Intermax\LaravelOpenApi\Generator\Parameters;
 
+use cebe\openapi\exceptions\TypeErrorException;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Route;
 
@@ -9,7 +10,7 @@ class ParametersCreator
 {
     public function __construct(
         protected PathParametersCreator $pathParameterCreator,
-        protected FilterParametersCreator $filterParametersCreator,
+        protected QueryParametersCreator $queryParametersCreator,
     ) {
     }
 
@@ -17,12 +18,14 @@ class ParametersCreator
      * @param  Route  $route
      * @param  null|FormRequest  $requestClass
      * @return array<mixed>
+     *
+     * @throws TypeErrorException
      */
     public function create(Route $route, ?FormRequest $requestClass = null): array
     {
         return array_merge(
             $this->pathParameterCreator->create($route),
-            $this->filterParametersCreator->create($route, $requestClass),
+            $this->queryParametersCreator->create($requestClass),
         );
     }
 }
