@@ -1,6 +1,6 @@
 <?php
 
-namespace Intermax\LaravelOpenApi\Generator;
+namespace Intermax\LaravelOpenApi\Generator\Parameters;
 
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Parameter;

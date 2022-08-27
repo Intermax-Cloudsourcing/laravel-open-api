@@ -8,8 +8,10 @@ use cebe\openapi\spec\PathItem;
 use cebe\openapi\spec\Server;
 use cebe\openapi\Writer;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Str;
+use Intermax\LaravelOpenApi\Generator\Parameters\ParametersCreator;
 
 class Generator
 {
@@ -31,7 +33,7 @@ class Generator
      *
      * @throws TypeErrorException
      */
-    public function generate($output = 'json')
+    public function generate(string $output = 'json'): string
     {
         $openApi = new OpenApi([
             'openapi' => '3.0.2',
@@ -73,6 +75,7 @@ class Generator
                 $requestClassName = $this->routeAnalyser->determineRequestClass($route);
 
                 if ($requestClassName) {
+                    /** @var FormRequest $requestClass */
                     $requestClass = new $requestClassName();
 
                     $requestBody = $this->requestBodyCreator->create($requestClass);
@@ -88,9 +91,9 @@ class Generator
                     method: $method,
                     entity: $this->deriveEntityNameFromUri($route->uri()),
                     resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
+                    responses: $response ?? $this->responsesCreator->emptyResponse(),
                     requestBody: $requestBody ?? null,
                     parameters: $this->parametersCreator->create($route, $requestClass ?? null),
-                    responses: $response ?? $this->responsesCreator->emptyResponse(),
                 );
 
                 unset($requestBody);
