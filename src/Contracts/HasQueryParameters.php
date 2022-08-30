@@ -1,8 +1,8 @@
 <?php
 
-namespace Intermax\LaravelOpenApi\Contracts;
+declare(strict_types=1);
 
-use Intermax\LaravelOpenApi\Generator\Parameters\QueryParameter;
+namespace Intermax\LaravelOpenApi\Contracts;
 
 interface HasQueryParameters
 {

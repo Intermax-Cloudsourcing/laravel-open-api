@@ -5,11 +5,13 @@ namespace Intermax\LaravelOpenApi\Generator;
 use cebe\openapi\spec\RequestBody;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Intermax\LaravelOpenApi\Contracts\HasQueryParameters;
 use UnhandledMatchError;
 
 class RequestBodyCreator
 {
-    public function __construct(private Repository $config)
+    public function __construct(private readonly Repository $config)
     {
     }
 
@@ -17,11 +19,17 @@ class RequestBodyCreator
     {
         $body = [];
 
-        if (! method_exists($request, 'rules') || empty($request->rules())) {
+        if (! method_exists($request, 'rules')) {
             return null;
         }
 
-        $rules = $this->normalizeRules($request->rules());
+        $rules = $this->rulesWithoutQueryParameters($request);
+
+        if (empty($rules)) {
+            return null;
+        }
+
+        $rules = $this->normalizeRules($rules);
 
         $properties = [];
 
@@ -119,5 +127,32 @@ class RequestBodyCreator
         }
 
         return $type;
+    }
+
+    /**
+     * @param  FormRequest  $request
+     * @return array<string, array<string|Rule>|string|Rule>
+     */
+    protected function rulesWithoutQueryParameters(FormRequest $request): array
+    {
+        $queryParameters = [];
+
+        if ($request instanceof HasQueryParameters) {
+            foreach ($request->queryParameters() as $parameter) {
+                $queryParameters[] = str_replace(
+                    '[', '.', str_replace(
+                        ']', '', $parameter->name()
+                    )
+                );
+            }
+        }
+
+        assert(method_exists($request, 'rules'));
+
+        return array_filter(
+            array: $request->rules(),
+            callback: fn ($name) => ! in_array($name, $queryParameters),
+            mode: ARRAY_FILTER_USE_KEY
+        );
     }
 }
