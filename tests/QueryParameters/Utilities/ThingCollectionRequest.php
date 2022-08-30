@@ -31,6 +31,6 @@ class ThingCollectionRequest extends FormRequest implements HasQueryParameters
 
     public function rules(): array
     {
-        return [];
+        return ['filter.test' => 'string'];
     }
 }

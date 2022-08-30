@@ -8,5 +8,9 @@ use cebe\openapi\spec\Parameter;
 
 interface QueryParameter
 {
+    public function name(): string;
+
+    public function type(): string;
+
     public function toParameter(): Parameter;
 }

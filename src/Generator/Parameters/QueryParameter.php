@@ -23,6 +23,16 @@ class QueryParameter implements \Intermax\LaravelOpenApi\Contracts\QueryParamete
     ) {
     }
 
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function type(): string
+    {
+        return $this->type;
+    }
+
     /**
      * @throws TypeErrorException
      */
