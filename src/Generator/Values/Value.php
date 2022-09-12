@@ -18,7 +18,7 @@ abstract class Value implements JsonSerializable
         return call_user_func(Closure::fromCallable($this->closure));
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $value = $this->getValue();
 

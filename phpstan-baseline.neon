@@ -81,11 +81,6 @@ parameters:
 			path: src/Generator/Mapping/Property.php
 
 		-
-			message: "#^Property Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Property\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Generator/Mapping/Property.php
-
-		-
 			message: "#^Method Intermax\\\\LaravelOpenApi\\\\Generator\\\\Mapping\\\\Schema\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Generator/Mapping/Schema.php

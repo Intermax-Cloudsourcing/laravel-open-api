@@ -34,7 +34,7 @@ class ResourceInput implements \JsonSerializable
         return 'value';
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return (string) $this;
     }

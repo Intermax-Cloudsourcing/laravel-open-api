@@ -12,7 +12,7 @@ class Items implements JsonSerializable
     ) {
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $json = [
             'type' => $this->type,

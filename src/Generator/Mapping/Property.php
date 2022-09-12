@@ -22,7 +22,7 @@ class Property implements JsonSerializable, Arrayable
         return json_encode($this);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return array_filter([
             'type' => $this->type,
