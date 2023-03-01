@@ -89,7 +89,7 @@ class Generator
                 $openApi->paths[$path]->$operationName = $this->operationCreator->create(
                     method: $method,
                     entity: $this->deriveEntityNameFromUri($route->uri()),
-                    resource: last(explode('\\', $resourceClassName ?? Str::studly(str_replace('/', '-', $route->uri())))),
+                    operationId: $this->getOperationId($method, $route->uri()),
                     responses: $response ?? $this->responsesCreator->emptyResponse(),
                     requestBody: $requestBody ?? null,
                     parameters: $this->parametersCreator->create($route, $requestClass ?? null),
@@ -108,6 +108,51 @@ class Generator
 
     protected function deriveEntityNameFromUri(string $uri): string
     {
-        return Str::studly(Str::singular(explode('/', $uri)[0]));
+        $parts = array_reverse(explode('/', $uri));
+
+        foreach ($parts as $part) {
+            if (! str_contains($part, '{')) {
+                return Str::of($part)
+                    ->studly()
+                    ->singular()
+                    ->toString();
+            }
+        }
+
+        return Str::of(last($parts))
+            ->studly()
+            ->singular()
+            ->toString();
+    }
+
+    protected function getOperationId(string $method, string $uri): string
+    {
+        $operationId = Str::of($method)->lower();
+
+        foreach (explode('/', $uri) as $part) {
+            if (str_contains($part, '{')) {
+                $operationIdParts = $operationId->explode('-');
+
+                $operationId = Str::of($operationIdParts->push(
+                    Str::singular(
+                        $operationIdParts->pop()
+                    )
+                )->implode('-'));
+
+                $nextIterationsAreNested = true;
+
+                continue;
+            }
+
+            if ($nextIterationsAreNested ?? false) {
+                $operationIdPart = $part;
+            } else {
+                $operationIdPart = Str::plural($part);
+            }
+
+            $operationId = $operationId->append('-'.$operationIdPart);
+        }
+
+        return $operationId->camel()->toString();
     }
 }
