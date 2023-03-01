@@ -12,10 +12,6 @@ use Intermax\LaravelOpenApi\Generator\Generator;
 class DocsController
 {
     /**
-     * @param  Generator  $generator
-     * @param  ResponseFactory  $responses
-     * @return Response
-     *
      * @throws TypeErrorException
      */
     public function docsJson(Generator $generator, ResponseFactory $responses): Response
@@ -25,10 +21,6 @@ class DocsController
     }
 
     /**
-     * @param  Generator  $generator
-     * @param  ResponseFactory  $responses
-     * @return Response
-     *
      * @throws TypeErrorException
      */
     public function docsYaml(Generator $generator, ResponseFactory $responses): Response

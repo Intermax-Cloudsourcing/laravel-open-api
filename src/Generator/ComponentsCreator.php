@@ -30,7 +30,6 @@ class ComponentsCreator
     }
 
     /**
-     * @param  string  $entityName
      * @return $this
      *
      * @throws Throwable
@@ -98,10 +97,7 @@ class ComponentsCreator
     }
 
     /**
-     * @param $dates
-     * @param $item
      * @param  mixed  $value
-     * @return array
      */
     protected function determineProperty($dates, $item, $value): array
     {
@@ -136,8 +132,6 @@ class ComponentsCreator
     }
 
     /**
-     * @param $entity
-     *
      * @throws ReflectionException
      */
     protected function loadAllRelations($entity)

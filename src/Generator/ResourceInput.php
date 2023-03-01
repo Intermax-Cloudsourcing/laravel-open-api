@@ -20,9 +20,7 @@ class ResourceInput implements \JsonSerializable
     }
 
     /**
-     * @param  string  $name
      * @param  array<mixed>  $arguments
-     * @return string
      */
     public function __call(string $name, array $arguments): string
     {

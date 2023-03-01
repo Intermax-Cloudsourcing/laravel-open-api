@@ -10,7 +10,6 @@ use Intermax\LaravelOpenApi\Contracts\HasQueryParameters;
 class QueryParametersCreator
 {
     /**
-     * @param  FormRequest|null  $formRequest
      * @return array<Parameter>
      *
      * @throws TypeErrorException

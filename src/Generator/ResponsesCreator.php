@@ -25,7 +25,6 @@ class ResponsesCreator
     }
 
     /**
-     * @param  string  $className
      * @return Responses<Response>
      *
      * @throws TypeErrorException
@@ -42,7 +41,6 @@ class ResponsesCreator
     }
 
     /**
-     * @param  mixed  $schema
      * @param  string|null  $resourceName
      * @return Responses<Response>
      *
@@ -68,7 +66,7 @@ class ResponsesCreator
      * @param  array<mixed>|object  $responseData
      * @return array<mixed>
      */
-    protected function createProperties(object | array $responseData): array
+    protected function createProperties(object|array $responseData): array
     {
         $properties = [];
 
@@ -155,7 +153,6 @@ class ResponsesCreator
 
     /**
      * @param  array<mixed>  $value
-     * @return string
      */
     protected function determineArrayItemType(array $value): string
     {

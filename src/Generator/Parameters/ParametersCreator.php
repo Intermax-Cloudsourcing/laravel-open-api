@@ -15,8 +15,6 @@ class ParametersCreator
     }
 
     /**
-     * @param  Route  $route
-     * @param  null|FormRequest  $requestClass
      * @return array<mixed>
      *
      * @throws TypeErrorException

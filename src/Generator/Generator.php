@@ -29,7 +29,6 @@ class Generator
 
     /**
      * @param  string  $output json or yaml
-     * @return string
      *
      * @throws TypeErrorException
      */
