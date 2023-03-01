@@ -103,7 +103,6 @@ class RequestBodyCreator
 
     /**
      * @param  array<mixed>  $fieldRules
-     * @return string
      */
     protected function determineFieldType(array $fieldRules): string
     {
@@ -130,7 +129,6 @@ class RequestBodyCreator
     }
 
     /**
-     * @param  FormRequest  $request
      * @return array<string, array<string|Rule>|string|Rule>
      */
     protected function rulesWithoutQueryParameters(FormRequest $request): array

@@ -27,11 +27,10 @@ class ResourceFactory
 
     /**
      * @param  class-string  $resourceClassName
-     * @return JsonResource|ResourceCollection|null
      *
      * @throws ReflectionException|BindingResolutionException|Throwable
      */
-    public function createFromClassName(string $resourceClassName): JsonResource | ResourceCollection | null
+    public function createFromClassName(string $resourceClassName): JsonResource|ResourceCollection|null
     {
         $model = $this->discoverResourceModel($resourceClassName);
 
@@ -44,7 +43,6 @@ class ResourceFactory
 
     /**
      * @param  class-string  $resourceClassName
-     * @return mixed
      *
      * @throws BindingResolutionException
      * @throws ReflectionException
@@ -66,9 +64,6 @@ class ResourceFactory
     }
 
     /**
-     * @param  ReflectionClass  $reflectionClass
-     * @return mixed
-     *
      * @throws BindingResolutionException
      */
     protected function discoverFromDocBlockProperty(ReflectionClass $reflectionClass): mixed
@@ -94,9 +89,6 @@ class ResourceFactory
     }
 
     /**
-     * @param  ReflectionClass  $reflectionClass
-     * @return mixed
-     *
      * @throws BindingResolutionException
      */
     protected function discoverFromAttribute(ReflectionClass $reflectionClass): mixed

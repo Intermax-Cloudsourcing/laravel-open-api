@@ -9,7 +9,6 @@ use Illuminate\Routing\Route;
 class PathParametersCreator
 {
     /**
-     * @param  Route  $route
      * @return array<Parameter>
      *
      * @throws TypeErrorException

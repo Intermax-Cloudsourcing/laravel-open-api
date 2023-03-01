@@ -10,10 +10,7 @@ use cebe\openapi\spec\Parameter;
 class QueryParameter implements \Intermax\LaravelOpenApi\Contracts\QueryParameter
 {
     /**
-     * @param  string  $name
-     * @param  string  $type
      * @param  array<int, mixed>|null  $options
-     * @param  mixed|null  $example
      */
     public function __construct(
         public readonly string $name,
