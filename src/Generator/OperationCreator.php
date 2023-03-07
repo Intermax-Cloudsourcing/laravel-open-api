@@ -20,7 +20,7 @@ class OperationCreator
     public function create(
         string $method,
         string $entity,
-        string $resource,
+        string $operationId,
         Responses $responses,
         ?RequestBody $requestBody = null,
         ?array $parameters = null,
@@ -31,7 +31,7 @@ class OperationCreator
             'tags' => [
                 $entity,
             ],
-            'operationId' => "{$method}{$resource}",
+            'operationId' => $operationId,
         ];
 
         if ($requestBody) {
