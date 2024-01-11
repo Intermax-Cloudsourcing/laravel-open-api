@@ -6,8 +6,8 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.45.1/swagger-ui-bundle.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.27.0/swagger-ui.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="swagger-ui">
