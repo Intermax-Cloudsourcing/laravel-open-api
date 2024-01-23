@@ -59,22 +59,13 @@ class ResponseDiscoveryTest extends TestCase
         $this->assertNotNull($spec['paths']['/things']['post']['responses']['200'] ?? null);
     }
 
-    /**
-     * @param  array<mixed>  $spec
-     * @return array<mixed>
-     */
-    protected function getSchema(array $spec): ?array
-    {
-        return $spec['paths']['/things']['post']['responses']['200']['content']['application/json']['schema'];
-    }
-
     protected function assertNumberOfSubThingsIsInteger($spec): void
     {
         $this->assertEquals(
             'integer',
             Arr::get(
-                $this->getSchema($spec),
-                'properties.data.properties.attributes.properties.numberOfSubThings.type'
+                $spec,
+                'components.schemas.Thing.properties.attributes.properties.numberOfSubThings.type'
             )
         );
     }
@@ -84,8 +75,8 @@ class ResponseDiscoveryTest extends TestCase
         $this->assertEquals(
             'number',
             Arr::get(
-                $this->getSchema($spec),
-                'properties.data.properties.attributes.properties.fractionalNumber.type'
+                $spec,
+                'components.schemas.Thing.properties.attributes.properties.fractionalNumber.type'
             )
         );
     }

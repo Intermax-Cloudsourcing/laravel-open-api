@@ -5,7 +5,7 @@ namespace Intermax\LaravelOpenApi\Generator\Mapping;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 
-class Property implements JsonSerializable, Arrayable
+class Property implements Arrayable, JsonSerializable
 {
     public function __construct(
         protected string $type,
