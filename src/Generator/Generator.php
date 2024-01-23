@@ -71,32 +71,9 @@ class Generator
 
                 $operationName = strtolower($method);
 
-                $requestClassName = $this->routeAnalyser->determineRequestClass($route);
+                $operation = $this->buildOperation($route, $method);
 
-                if ($requestClassName) {
-                    /** @var FormRequest $requestClass */
-                    $requestClass = new $requestClassName();
-
-                    $requestBody = $this->requestBodyCreator->create($requestClass);
-                }
-
-                $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
-
-                if ($resourceClassName) {
-                    $response = $this->responsesCreator->createFromResource($resourceClassName);
-                }
-
-                $openApi->paths[$path]->$operationName = $this->operationCreator->create(
-                    method: $method,
-                    entity: $this->deriveEntityNameFromUri($route->uri()),
-                    operationId: $this->getOperationId($method, $route->uri()),
-                    responses: $response ?? $this->responsesCreator->emptyResponse(),
-                    requestBody: $requestBody ?? null,
-                    parameters: $this->parametersCreator->create($route, $requestClass ?? null),
-                );
-
-                unset($requestBody);
-                unset($response);
+                $openApi->paths[$path]->$operationName = $operation;
             }
         }
 
@@ -135,7 +112,7 @@ class Generator
 
                 $operationId = Str::of($operationIdParts->push(
                     Str::singular(
-                        $operationIdParts->pop()
+                        (string) $operationIdParts->pop()
                     )
                 )->implode('-'));
 
@@ -154,5 +131,32 @@ class Generator
         }
 
         return $operationId->camel()->toString();
+    }
+
+    public function buildOperation(Route $route, string $method): Operation
+    {
+        $requestClassName = $this->routeAnalyser->determineRequestClass($route);
+
+        if ($requestClassName) {
+            /** @var FormRequest $requestClass */
+            $requestClass = new $requestClassName();
+
+            $requestBody = $this->requestBodyCreator->create($requestClass);
+        }
+
+        $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
+
+        if ($resourceClassName) {
+            $response = $this->responsesCreator->createFromResource($resourceClassName);
+        }
+
+        return $this->operationCreator->create(
+            method: $method,
+            entity: $this->deriveEntityNameFromUri($route->uri()),
+            operationId: $this->getOperationId($method, $route->uri()),
+            responses: $response ?? $this->responsesCreator->emptyResponse(),
+            requestBody: $requestBody ?? null,
+            parameters: $this->parametersCreator->create($route, $requestClass ?? null),
+        );
     }
 }
