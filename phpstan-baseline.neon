@@ -121,11 +121,6 @@ parameters:
 			path: src/Generator/ResponsesCreator.php
 
 		-
-			message: "#^Cannot access offset 0 on array\\|Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\|JsonSerializable\\.$#"
-			count: 1
-			path: src/Generator/ResponsesCreator.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$resourceName$#"
 			count: 1
 			path: src/Generator/ResponsesCreator.php

@@ -7,11 +7,13 @@ use Carbon\Exceptions\InvalidFormatException;
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\Response;
 use cebe\openapi\spec\Responses;
+use cebe\openapi\spec\Schema;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Intermax\LaravelOpenApi\Generator\Values\Value;
 
 class ResponsesCreator
@@ -21,6 +23,7 @@ class ResponsesCreator
         protected ResourceFactory $resourceFactory,
         protected ResourceAnalyser $resourceAnalyser,
         protected Repository $config,
+        protected ComponentManager $componentManager,
     ) {
     }
 
@@ -29,7 +32,7 @@ class ResponsesCreator
      *
      * @throws TypeErrorException
      */
-    public function createFromResource(string $className): Responses
+    public function createFromResource(string $className, ?string $entityName = null): Responses
     {
         $mapping = $this->resourceAnalyser->retrieveMappingFromResource($className);
 
@@ -37,7 +40,7 @@ class ResponsesCreator
             return $this->convertSchemaToResponse($mapping, $className);
         }
 
-        return $this->discoverResponse($className);
+        return $this->discoverResponse($className, $entityName);
     }
 
     /**
@@ -192,7 +195,7 @@ class ResponsesCreator
      *
      * @throws TypeErrorException
      */
-    public function discoverResponse(string $className): Responses
+    public function discoverResponse(string $className, ?string $entityName): Responses
     {
         try {
             $resource = $this->resourceFactory->createFromClassName($className);
@@ -201,26 +204,37 @@ class ResponsesCreator
                 return $this->emptyResponse();
             }
 
+            /** @var array<int, mixed> $responseData */
             $responseData = $resource->toArray($this->request);
         } catch (\Throwable $e) {
             return $this->emptyResponse();
         }
 
         if ($resource instanceof ResourceCollection) {
+            $responseData = $responseData[0];
+        }
+
+        $this->componentManager->addSchema(
+            name: $entityName ?? Str::of($className)->replace('Resource', '')->toString(),
+            schema: new Schema([
+                'type' => 'object',
+                'properties' => $this->createProperties($responseData),
+            ]),
+        );
+
+        if ($resource instanceof ResourceCollection) {
             $schemaProperties = [
                 'data' => [
                     'type' => 'array',
                     'items' => [
-                        'type' => 'object',
-                        'properties' => $this->createProperties($responseData[0]),
+                        '$ref' => '#/components/schemas/'.$entityName,
                     ],
                 ],
             ];
         } else {
             $schemaProperties = [
                 'data' => [
-                    'type' => 'object',
-                    'properties' => $this->createProperties($responseData),
+                    '$ref' => '#/components/schemas/'.$entityName,
                 ],
             ];
         }

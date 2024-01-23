@@ -3,6 +3,7 @@
 namespace Intermax\LaravelOpenApi\Generator;
 
 use cebe\openapi\spec\RequestBody;
+use cebe\openapi\spec\Schema;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -11,11 +12,11 @@ use UnhandledMatchError;
 
 class RequestBodyCreator
 {
-    public function __construct(private readonly Repository $config)
+    public function __construct(private readonly Repository $config, private ComponentManager $componentManager)
     {
     }
 
-    public function create(FormRequest $request): ?RequestBody
+    public function create(FormRequest $request, ?string $entityName = null): ?RequestBody
     {
         $body = [];
 
@@ -74,12 +75,24 @@ class RequestBodyCreator
             $properties = array_replace_recursive($properties, $property);
         }
 
+        $schema = [
+            'type' => 'object',
+            'properties' => $properties,
+        ];
+
+        if ($entityName) {
+            if (array_key_exists('data', $properties)) {
+                $this->componentManager->addSchema($entityName, new Schema($properties['data']));
+            } else {
+                $this->componentManager->addSchema($entityName, new Schema($properties));
+            }
+
+            $schema = ['$ref' => '#/components/schemas/'.$entityName];
+        }
+
         $body['content'] = [
             $this->config->get('open-api.content_type') => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => $properties,
-                ],
+                'schema' => $schema,
             ],
         ];
 

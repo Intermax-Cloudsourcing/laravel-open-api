@@ -3,6 +3,7 @@
 namespace Intermax\LaravelOpenApi;
 
 use Illuminate\Support\ServiceProvider;
+use Intermax\LaravelOpenApi\Generator\ComponentManager;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 class OpenApiServiceProvider extends ServiceProvider
@@ -25,5 +26,7 @@ class OpenApiServiceProvider extends ServiceProvider
         $this->app->bind(DocBlockFactory::class, function () {
             return DocBlockFactory::createInstance();
         });
+
+        $this->app->scoped(ComponentManager::class);
     }
 }

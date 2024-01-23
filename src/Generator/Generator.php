@@ -4,11 +4,13 @@ namespace Intermax\LaravelOpenApi\Generator;
 
 use cebe\openapi\exceptions\TypeErrorException;
 use cebe\openapi\spec\OpenApi;
+use cebe\openapi\spec\Operation;
 use cebe\openapi\spec\PathItem;
 use cebe\openapi\spec\Server;
 use cebe\openapi\Writer;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Str;
 use Intermax\LaravelOpenApi\Generator\Parameters\ParametersCreator;
@@ -18,17 +20,18 @@ class Generator
     public function __construct(
         protected Router $router,
         protected OperationCreator $operationCreator,
-        protected ComponentsCreator $componentsCreator,
+        protected ComponentManager $componentManager,
         protected Repository $config,
         protected RouteAnalyser $routeAnalyser,
         protected RequestBodyCreator $requestBodyCreator,
         protected ParametersCreator $parametersCreator,
-        protected ResponsesCreator $responsesCreator
+        protected ResponsesCreator $responsesCreator,
+
     ) {
     }
 
     /**
-     * @param  string  $output json or yaml
+     * @param  string  $output  json or yaml
      *
      * @throws TypeErrorException
      */
@@ -76,6 +79,8 @@ class Generator
                 $openApi->paths[$path]->$operationName = $operation;
             }
         }
+
+        $openApi->components = $this->componentManager->components();
 
         return match ($output) {
             'yaml' => Writer::writeToYaml($openApi),
@@ -135,24 +140,26 @@ class Generator
 
     public function buildOperation(Route $route, string $method): Operation
     {
+        $entityName = $this->deriveEntityNameFromUri($route->uri());
+
         $requestClassName = $this->routeAnalyser->determineRequestClass($route);
 
         if ($requestClassName) {
             /** @var FormRequest $requestClass */
             $requestClass = new $requestClassName();
 
-            $requestBody = $this->requestBodyCreator->create($requestClass);
+            $requestBody = $this->requestBodyCreator->create($requestClass, $entityName);
         }
 
         $resourceClassName = $this->routeAnalyser->determineResourceClass($route);
 
         if ($resourceClassName) {
-            $response = $this->responsesCreator->createFromResource($resourceClassName);
+            $response = $this->responsesCreator->createFromResource($resourceClassName, $entityName);
         }
 
         return $this->operationCreator->create(
             method: $method,
-            entity: $this->deriveEntityNameFromUri($route->uri()),
+            entity: $entityName,
             operationId: $this->getOperationId($method, $route->uri()),
             responses: $response ?? $this->responsesCreator->emptyResponse(),
             requestBody: $requestBody ?? null,
