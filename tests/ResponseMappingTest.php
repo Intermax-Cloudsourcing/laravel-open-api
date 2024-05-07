@@ -2,13 +2,13 @@
 
 namespace Intermax\LaravelOpenApi\Tests;
 
-use cebe\openapi\exceptions\TypeErrorException;
 use Illuminate\Routing\Router;
 use Intermax\LaravelOpenApi\Generator\Generator;
 use Intermax\LaravelOpenApi\OpenApiServiceProvider;
 use Intermax\LaravelOpenApi\Tests\Utilities\Mapping\ThingController;
 use Intermax\LaravelOpenApi\Tests\Utilities\Mapping\ThingMapper;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResponseMappingTest extends TestCase
 {
@@ -22,11 +22,7 @@ class ResponseMappingTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @test
-     *
-     * @throws TypeErrorException
-     */
+    #[Test]
     public function it_can_map_resource_with_a_mapper_class()
     {
         /** @var Generator $generator */

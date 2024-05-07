@@ -9,6 +9,7 @@ use Intermax\LaravelOpenApi\OpenApiServiceProvider;
 use Intermax\LaravelOpenApi\Tests\Utilities\ResourceInput\PetController;
 use Intermax\LaravelOpenApi\Tests\Utilities\ResourceInput\ThingController;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class GeneratorTest extends TestCase
 {
@@ -22,9 +23,7 @@ class GeneratorTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generates_open_api_spec_for_route()
     {
         /** @var Generator $generator */
@@ -36,9 +35,7 @@ class GeneratorTest extends TestCase
         $this->assertEquals('postThings', $spec['paths']['/things']['post']['operationId'] ?? null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generates_distinct_operation_ids_with_nested_routes()
     {
         /** @var Generator $generator */
@@ -49,7 +46,7 @@ class GeneratorTest extends TestCase
         $this->assertEquals('postPetOwner', Arr::get($spec, 'paths./pets/{pet}/owner.post.operationId'));
     }
 
-    /** @test */
+    #[Test]
     public function it_generates_distinct_get_operation_ids()
     {
         /** @var Generator $generator */
