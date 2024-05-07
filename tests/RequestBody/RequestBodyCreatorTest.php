@@ -5,12 +5,11 @@ namespace Intermax\LaravelOpenApi\Tests;
 use Intermax\LaravelOpenApi\Generator\RequestBodyCreator;
 use Intermax\LaravelOpenApi\Tests\QueryParameters\Utilities\ThingCollectionRequest;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class RequestBodyCreatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_omits_query_parameters_from_request_body()
     {
         /** @var RequestBodyCreator $creator */

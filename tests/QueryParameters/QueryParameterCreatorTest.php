@@ -6,12 +6,11 @@ use Illuminate\Support\Arr;
 use Intermax\LaravelOpenApi\Generator\Parameters\QueryParametersCreator;
 use Intermax\LaravelOpenApi\Tests\QueryParameters\Utilities\ThingCollectionRequest;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class QueryParameterCreatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_creates_query_parameters_based_on_a_form_request_class()
     {
         /** @var QueryParametersCreator $creator */
@@ -25,9 +24,7 @@ class QueryParameterCreatorTest extends TestCase
         $this->assertTrue(in_array('include', $names));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_adds_an_enum_to_query_parameters_with_options()
     {
         /** @var QueryParametersCreator $creator */

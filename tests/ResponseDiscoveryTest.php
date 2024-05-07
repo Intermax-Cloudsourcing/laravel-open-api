@@ -2,13 +2,13 @@
 
 namespace Intermax\LaravelOpenApi\Tests;
 
-use cebe\openapi\exceptions\TypeErrorException;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Intermax\LaravelOpenApi\Generator\Generator;
 use Intermax\LaravelOpenApi\OpenApiServiceProvider;
 use Intermax\LaravelOpenApi\Tests\Utilities\ResourceInput\ThingController;
 use Orchestra\Testbench\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResponseDiscoveryTest extends TestCase
 {
@@ -22,11 +22,7 @@ class ResponseDiscoveryTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @test
-     *
-     * @throws TypeErrorException
-     */
+    #[Test]
     public function it_can_map_a_resource_with_openapi_types_through_response_discovery()
     {
         /** @var Generator $generator */
