@@ -10,8 +10,7 @@ abstract class Value implements JsonSerializable
     public function __construct(
         protected Closure $closure,
         protected bool $shouldCast = true,
-    ) {
-    }
+    ) {}
 
     public function getValue(): mixed
     {

@@ -17,8 +17,7 @@ class QueryParameter implements \Intermax\LaravelOpenApi\Contracts\QueryParamete
         public readonly string $type = 'string',
         public readonly ?array $options = null,
         public readonly mixed $example = null,
-    ) {
-    }
+    ) {}
 
     public function name(): string
     {

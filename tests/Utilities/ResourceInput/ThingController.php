@@ -9,6 +9,6 @@ class ThingController extends Controller
 {
     public function store(): ThingResource
     {
-        return new ThingResource(new ResourceInput());
+        return new ThingResource(new ResourceInput);
     }
 }

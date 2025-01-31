@@ -32,7 +32,7 @@ class ResponseMappingTest extends TestCase
         $this->assert200ResponseExists($spec);
 
         $this->assertJsonStringEqualsJsonString(
-            expectedJson: json_encode((new ThingMapper())->map()),
+            expectedJson: json_encode((new ThingMapper)->map()),
             actualJson: json_encode(
                 $this->getSchema($spec)
             )

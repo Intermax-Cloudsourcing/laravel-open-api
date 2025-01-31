@@ -11,8 +11,7 @@ class ParametersCreator
     public function __construct(
         protected PathParametersCreator $pathParameterCreator,
         protected QueryParametersCreator $queryParametersCreator,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<mixed>
