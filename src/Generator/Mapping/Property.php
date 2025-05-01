@@ -14,8 +14,7 @@ class Property implements Arrayable, JsonSerializable
         protected mixed $example = null,
         protected ?array $properties = null,
         protected ?Items $items = null,
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {

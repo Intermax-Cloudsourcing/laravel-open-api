@@ -10,8 +10,7 @@ abstract class Attribute
      */
     public function __construct(
         protected string $className
-    ) {
-    }
+    ) {}
 
     /**
      * @return string|class-string

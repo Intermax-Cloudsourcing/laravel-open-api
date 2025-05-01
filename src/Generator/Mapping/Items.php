@@ -9,8 +9,7 @@ class Items implements JsonSerializable
     public function __construct(
         protected string $type,
         protected ?string $format = null,
-    ) {
-    }
+    ) {}
 
     public function jsonSerialize(): mixed
     {

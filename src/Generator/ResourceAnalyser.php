@@ -32,7 +32,7 @@ class ResourceAnalyser
         $className = $mapsFields->getClassName();
 
         /** @var Mapper $mapper */
-        $mapper = new $className();
+        $mapper = new $className;
 
         return $mapper->map();
     }

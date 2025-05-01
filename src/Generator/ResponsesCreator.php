@@ -24,8 +24,7 @@ class ResponsesCreator
         protected ResourceAnalyser $resourceAnalyser,
         protected Repository $config,
         protected ComponentManager $componentManager,
-    ) {
-    }
+    ) {}
 
     /**
      * @return Responses<Response>

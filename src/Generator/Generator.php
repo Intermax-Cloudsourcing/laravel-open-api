@@ -27,8 +27,7 @@ class Generator
         protected ParametersCreator $parametersCreator,
         protected ResponsesCreator $responsesCreator,
 
-    ) {
-    }
+    ) {}
 
     /**
      * @param  string  $output  json or yaml
@@ -146,7 +145,7 @@ class Generator
 
         if ($requestClassName) {
             /** @var FormRequest $requestClass */
-            $requestClass = new $requestClassName();
+            $requestClass = new $requestClassName;
 
             $requestBody = $this->requestBodyCreator->create($requestClass, $entityName);
         }
