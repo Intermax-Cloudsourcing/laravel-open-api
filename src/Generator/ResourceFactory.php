@@ -22,8 +22,7 @@ class ResourceFactory
         protected DocBlockFactory $docBlockFactory,
         protected Application $app,
         protected Repository $config,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  class-string  $resourceClassName
@@ -60,7 +59,7 @@ class ResourceFactory
             }
         }
 
-        return new ResourceInput();
+        return new ResourceInput;
     }
 
     /**

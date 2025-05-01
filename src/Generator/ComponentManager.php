@@ -16,9 +16,7 @@ class ComponentManager
         'schemas' => [],
     ];
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function addSchema(string $name, Schema $schema): void
     {

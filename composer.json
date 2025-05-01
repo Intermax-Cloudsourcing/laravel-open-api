@@ -13,13 +13,13 @@
         "ext-json": "*",
         "devizzent/cebe-php-openapi": "^1.0",
         "fakerphp/faker": "^1.0",
-        "laravel/framework": "^10.0 || ^11.0",
+        "laravel/framework": "^10.0 || ^11.0 || ^12.0",
         "phpdocumentor/reflection-docblock": "^5.2"
     },
     "require-dev": {
         "laravel/pint": "^1.5",
-        "larastan/larastan": "^2.4",
-        "orchestra/testbench": "^9.0",
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^10.0",
         "phpunit/phpunit": "^11.0"
     },
     "autoload-dev": {

@@ -3,6 +3,4 @@
 namespace Intermax\LaravelOpenApi\Generator\Attributes;
 
 #[\Attribute]
-class UsesModel extends Attribute
-{
-}
+class UsesModel extends Attribute {}

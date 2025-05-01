@@ -12,9 +12,7 @@ use UnhandledMatchError;
 
 class RequestBodyCreator
 {
-    public function __construct(private readonly Repository $config, private ComponentManager $componentManager)
-    {
-    }
+    public function __construct(private readonly Repository $config, private ComponentManager $componentManager) {}
 
     public function create(FormRequest $request, ?string $entityName = null): ?RequestBody
     {
