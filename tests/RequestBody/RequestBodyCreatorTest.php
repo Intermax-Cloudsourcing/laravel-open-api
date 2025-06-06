@@ -19,4 +19,15 @@ class RequestBodyCreatorTest extends TestCase
 
         $this->assertNull($output);
     }
+
+    #[Test]
+    public function it_does_not_fail_with_exception_when_rules_method_requires_additional_arguments()
+    {
+        /** @var RequestBodyCreator $creator */
+        $creator = $this->app->make(RequestBodyCreator::class);
+
+        $output = $creator->create($this->app->make(ThingCollectionRequest::class));
+
+        $this->assertNull($output);
+    }
 }

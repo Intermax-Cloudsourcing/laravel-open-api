@@ -5,6 +5,7 @@ namespace Intermax\LaravelOpenApi\Generator;
 use cebe\openapi\spec\RequestBody;
 use cebe\openapi\spec\Schema;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Intermax\LaravelOpenApi\Contracts\HasQueryParameters;
@@ -12,7 +13,11 @@ use UnhandledMatchError;
 
 class RequestBodyCreator
 {
-    public function __construct(private readonly Repository $config, private ComponentManager $componentManager) {}
+    public function __construct(
+        private readonly Repository $config,
+        private ComponentManager $componentManager,
+        private Application $app,
+    ) {}
 
     public function create(FormRequest $request, ?string $entityName = null): ?RequestBody
     {
@@ -159,7 +164,7 @@ class RequestBodyCreator
         assert(method_exists($request, 'rules'));
 
         return array_filter(
-            array: $request->rules(),
+            array: $this->app->call($request->rules(...)), // @phpstan-ignore-line
             callback: fn ($name) => ! in_array($name, $queryParameters),
             mode: ARRAY_FILTER_USE_KEY
         );

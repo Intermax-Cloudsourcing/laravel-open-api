@@ -115,12 +115,6 @@ parameters:
 			path: src/Generator/Mapping/Schema.php
 
 		-
-			message: '#^Method Intermax\\LaravelOpenApi\\Generator\\OperationCreator\:\:create\(\) has parameter \$responses with no value type specified in iterable type cebe\\openapi\\spec\\Responses\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Generator/OperationCreator.php
-
-		-
 			message: '#^PHPDoc tag @param for parameter \$responses with type \(cebe\\openapi\\spec\\Responses&iterable\<cebe\\openapi\\spec\\Response\>\)\|null is not subtype of native type cebe\\openapi\\spec\\Responses\.$#'
 			identifier: parameter.phpDocType
 			count: 1
