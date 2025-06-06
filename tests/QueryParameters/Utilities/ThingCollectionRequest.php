@@ -29,7 +29,7 @@ class ThingCollectionRequest extends FormRequest implements HasQueryParameters
         ];
     }
 
-    public function rules(): array
+    public function rules(Dummy $dummy): array
     {
         return ['filter.test' => 'string'];
     }
